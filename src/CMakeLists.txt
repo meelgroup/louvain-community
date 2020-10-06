@@ -116,26 +116,44 @@ set_target_properties(comml-louvain PROPERTIES
 ####################
 ### INSTALL
 install(TARGETS comml-matrix
-    EXPORT ${COMML_EXPORT_NAME}
+    EXPORT ${COMMLOUVAIN_EXPORT_NAME}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
 install(TARGETS comml-convert
-    EXPORT ${COMML_EXPORT_NAME}
+    EXPORT ${COMMLOUVAIN_EXPORT_NAME}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
 install(TARGETS comml-hierarchy
-    EXPORT ${COMML_EXPORT_NAME}
+    EXPORT ${COMMLOUVAIN_EXPORT_NAME}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
 install(TARGETS comml-louvain
-    EXPORT ${COMML_EXPORT_NAME}
+    EXPORT ${COMMLOUVAIN_EXPORT_NAME}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
 install(TARGETS commlouvain
-    EXPORT ${COMML_EXPORT_NAME}
+    EXPORT ${COMMLOUVAIN_EXPORT_NAME}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
+
+install(FILES
+    balmod.h
+    condora.h
+    devind.h
+    devuni.h
+    dp.h
+    GitSHA1.h
+    goldberg.h
+    graph_binary.h
+    graph.h
+    louvain.h
+    modularity.h
+    owzad.h
+    quality.h
+    shimalik.h
+    zahn.h
+ DESTINATION include)
