@@ -1,0 +1,17 @@
+# Config file for the @EXPORT_TYPE@ cryptominisat Package
+# It defines the following variables
+#  COMML_INCLUDE_DIRS - include directories for cryptominisat5
+#  COMML_LIBRARIES    - libraries to link against
+#  COMML_EXECUTABLE   - the cryptominisat executable
+
+# Compute paths
+get_filename_component(COMML_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+set(COMML_INCLUDE_DIRS "@CONF_INCLUDE_DIRS@")
+
+# Our library dependencies (contains definitions for IMPORTED targets)
+include("${COMML_CMAKE_DIR}/@COMML_TARGETS_FILENAME@")
+
+# These are IMPORTED targets created by @COMML_TARGETS_FILENAME@
+set(COMML_VERSION_MAJOR @PROJECT_VERSION_MAJOR@)
+set(COMML_VERSION_MINOR @PROJECT_VERSION_MINOR@)
+set(COMML_EXECUTABLE comml)
