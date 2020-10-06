@@ -38,11 +38,6 @@ if (NOT WIN32)
     #add_cxx_flag_if_supported("-Wdeprecated")
 endif()
 
-include_directories(${CMAKE_CURRENT_BINARY_DIR})
-include_directories(${Boost_INCLUDE_DIRS})
-include_directories(${CRYPTOMINISAT5_INCLUDE_DIRS})
-include_directories(${MINISAT_INCLUDE_DIRS})
-
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/GitSHA1.cpp.in" "${CMAKE_CURRENT_BINARY_DIR}/GitSHA1.cpp" @ONLY)
 
 add_library(commlouvain
@@ -64,6 +59,9 @@ add_library(commlouvain
     zahn.cpp
     ${CMAKE_CURRENT_BINARY_DIR}/GitSHA1.cpp
 )
+
+####################
+### BINARIES
 add_executable(comml-matrix
     main_matrix.cpp
 )
@@ -76,13 +74,14 @@ add_executable(comml-hierarchy
     main_hierarchy.cpp
 )
 
-
 add_executable(comml-louvain
     main_louvain.cpp
 )
 
 
 
+####################
+### LINKING
 target_link_libraries(comml-louvain
     commlouvain
 )
@@ -93,6 +92,8 @@ target_link_libraries(comml-convert
 
 
 
+####################
+### Target Properties
 set_target_properties(comml-matrix PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}
     INSTALL_RPATH_USE_LINK_PATH TRUE)
@@ -112,6 +113,8 @@ set_target_properties(comml-louvain PROPERTIES
 
 
 
+####################
+### INSTALL
 install(TARGETS comml-matrix
     EXPORT ${COMML_EXPORT_NAME}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
