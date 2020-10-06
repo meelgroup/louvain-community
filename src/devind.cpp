@@ -31,7 +31,7 @@
 // see README.txt for more details
 
 
-#include "devind.h"
+#include "commlouvain/devind.h"
 
 using namespace std;
 

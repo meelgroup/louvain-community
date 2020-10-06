@@ -48,11 +48,9 @@ add_library(commlouvain
     dp.cpp
     goldberg.cpp
     graph_binary.cpp
-    graph_binary.h
     graph.cpp
     louvain.cpp
     modularity.cpp
-    modularity.h
     owzad.cpp
     quality.cpp
     shimalik.cpp
@@ -141,19 +139,19 @@ install(TARGETS commlouvain
 )
 
 install(FILES
-    balmod.h
-    condora.h
-    devind.h
-    devuni.h
-    dp.h
-    GitSHA1.h
-    goldberg.h
-    graph_binary.h
-    graph.h
-    louvain.h
-    modularity.h
-    owzad.h
-    quality.h
-    shimalik.h
-    zahn.h
+    commlouvain/balmod.h
+    commlouvain/condora.h
+    commlouvain/devind.h
+    commlouvain/devuni.h
+    commlouvain/dp.h
+    commlouvain/GitSHA1.h
+    commlouvain/goldberg.h
+    commlouvain/graph_binary.h
+    commlouvain/graph.h
+    commlouvain/louvain.h
+    commlouvain/modularity.h
+    commlouvain/owzad.h
+    commlouvain/quality.h
+    commlouvain/shimalik.h
+    commlouvain/zahn.h
  DESTINATION include)

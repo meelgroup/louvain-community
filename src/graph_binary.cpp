@@ -32,7 +32,7 @@
 
 
 #include <fstream>
-#include "graph_binary.h"
+#include "commlouvain/graph_binary.h"
 
 
 Graph::Graph() {

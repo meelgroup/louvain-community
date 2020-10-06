@@ -31,7 +31,7 @@
 // see README.txt for more details
 
 
-#include "goldberg.h"
+#include "commlouvain/goldberg.h"
 
 using namespace std;
 

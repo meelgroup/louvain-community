@@ -31,7 +31,7 @@
 // see README.txt for more details
 
 
-#include "owzad.h"
+#include "commlouvain/owzad.h"
 
 using namespace std;
 

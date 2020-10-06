@@ -27,7 +27,7 @@
 //-----------------------------------------------------------------------------
 // see readme.txt for more details
 
-#include "louvain.h"
+#include "commlouvain/louvain.h"
 
 using namespace std;
 

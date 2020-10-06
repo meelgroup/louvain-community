@@ -31,7 +31,7 @@
 // see README.txt for more details
 
 
-#include "zahn.h"
+#include "commlouvain/zahn.h"
 
 using namespace std;
 

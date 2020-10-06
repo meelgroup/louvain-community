@@ -31,7 +31,7 @@
 // see README.txt for more details
 
 
-#include "devuni.h"
+#include "commlouvain/devuni.h"
 
 using namespace std;
 

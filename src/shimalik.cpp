@@ -31,7 +31,7 @@
 // see README.txt for more details
 
 
-#include "shimalik.h"
+#include "commlouvain/shimalik.h"
 
 using namespace std;
 

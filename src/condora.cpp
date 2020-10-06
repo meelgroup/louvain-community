@@ -31,7 +31,7 @@
 // see README.txt for more details
 
 
-#include "condora.h"
+#include "commlouvain/condora.h"
 
 using namespace std;
 

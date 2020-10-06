@@ -31,7 +31,7 @@
 // see README.txt for more details
 
 
-#include "quality.h"
+#include "commlouvain/quality.h"
 
 using namespace std;
 

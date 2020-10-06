@@ -31,7 +31,7 @@
 // see README.txt for more details
 
 
-#include "dp.h"
+#include "commlouvain/dp.h"
 
 using namespace std;
 
