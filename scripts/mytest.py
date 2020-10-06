@@ -87,8 +87,8 @@ def convert_cnf_to_vig_graph(maxvar, cls):
 
 def print_graph(G):
     with open("graph.txt", "w") as f:
-        for a, b in G.edges:
-            f.write("%d  %d\n" % (a,b))
+        for a, b, weight in G.edges.data("weight"):
+            f.write("%d  %d %f\n" % (a,b, weight))
 
 
 def compute_best_part(G, show=True):
