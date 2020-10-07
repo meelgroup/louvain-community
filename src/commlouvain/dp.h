@@ -95,7 +95,7 @@ DP::insert(int node, int comm, long double dnodecomm) {
 }
 
 inline long double
-DP::gain(int node, int comm, long double dnc, long double degc) {
+DP::gain(int node, int comm, long double dnc, long double /*degc*/) {
   assert(node>=0 && node<size);
 
   long double inc  = in[comm];

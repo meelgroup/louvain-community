@@ -81,7 +81,7 @@ CondorA::insert(int node, int comm, long double dnodecomm) {
 }
 
 inline long double
-CondorA::gain(int node, int comm, long double dnc, long double degc) {
+CondorA::gain(int node, int /*comm*/, long double dnc, long double /*degc*/) {
   assert(node>=0 && node<size);
 
   return dnc;

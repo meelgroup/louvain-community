@@ -79,7 +79,7 @@ DevUni::insert(int node, int comm, long double dnodecomm) {
 }
 
 inline long double
-DevUni::gain(int node, int comm, long double dnc, long double degc) {
+DevUni::gain(int node, int comm, long double dnc, long double /*degc*/) {
   assert(node>=0 && node<size);
 
   long double wc = (long double)w[comm];

@@ -76,6 +76,10 @@ add_executable(comml-louvain
     main_louvain.cpp
 )
 
+add_executable(example
+    main_test.cpp
+)
+
 
 
 ####################
@@ -85,6 +89,10 @@ target_link_libraries(comml-louvain
 )
 
 target_link_libraries(comml-convert
+    commlouvain
+)
+
+target_link_libraries(example
     commlouvain
 )
 
@@ -108,7 +116,9 @@ set_target_properties(comml-louvain PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}
     INSTALL_RPATH_USE_LINK_PATH TRUE)
 
-
+set_target_properties(example PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}
+    INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 
 ####################
@@ -154,4 +164,4 @@ install(FILES
     commlouvain/quality.h
     commlouvain/shimalik.h
     commlouvain/zahn.h
- DESTINATION include)
+ DESTINATION include/commlouvain)
