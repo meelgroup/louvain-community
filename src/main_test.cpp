@@ -59,6 +59,24 @@ bool verbose = true;
 
 using namespace std;
 
+void print_final(vector<vector<int>>& levels)
+{
+    vector<int> n2c(levels[0].size());
+
+    for (unsigned int i = 0; i < levels[0].size(); i++)
+        n2c[i] = i;
+
+    for (unsigned l = 0; l < levels.size(); l++) {
+        for (unsigned int node = 0; node < levels[0].size(); node++) {
+            n2c[node] = levels[l][n2c[node]];
+        }
+    }
+
+    for (unsigned int node = 0; node < levels[0].size(); node++) {
+        cout << node << " " << n2c[node] << endl;
+    }
+}
+
 int main(int /*argc*/, char ** /*argv*/)
 {
     srand(0);
@@ -82,6 +100,7 @@ int main(int /*argc*/, char ** /*argv*/)
     long double new_qual;
 
     int level = 0;
+    vector<vector<int> > levels;
 
     do {
         cerr << "level " << level << ":\n";
@@ -91,7 +110,8 @@ int main(int /*argc*/, char ** /*argv*/)
         improvement = c.one_level();
         new_qual = (c.qual)->quality();
 
-        c.display_partition();
+        levels.push_back(vector<int>());
+        c.display_partition(&(levels[level]));
 
         g = c.partition2graph_binary();
         delete q;
@@ -109,6 +129,7 @@ int main(int /*argc*/, char ** /*argv*/)
     time(&time_end);
     cerr << "Total duration: " << (time_end - time_begin) << " sec" << endl;
     cerr << new_qual << endl;
+    print_final(levels);
 
     delete q;
 }

@@ -127,7 +127,7 @@ void Louvain::partition2graph()
     }
 }
 
-void Louvain::display_partition()
+void Louvain::display_partition(vector<int>* level)
 {
     vector<int> renumber(qual->size, -1);
     for (int node = 0; node < qual->size; node++) {
@@ -139,8 +139,13 @@ void Louvain::display_partition()
         if (renumber[i] != -1)
             renumber[i] = end++;
 
-    for (int i = 0; i < qual->size; i++)
-        cout << i << " " << renumber[qual->n2c[i]] << endl;
+    for (int i = 0; i < qual->size; i++) {
+        if (level) {
+            level->push_back(renumber[qual->n2c[i]]);
+        } else {
+            cout << i << " " << renumber[qual->n2c[i]] << endl;
+        }
+    }
 }
 
 Graph Louvain::partition2graph_binary()

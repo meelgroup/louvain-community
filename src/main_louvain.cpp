@@ -302,7 +302,7 @@ int main(int argc, char **argv)
         if (++level == display_level)
             (c.qual)->g.display();
         if (display_level == -1)
-            c.display_partition();
+            c.display_partition(NULL);
 
         g = c.partition2graph_binary();
         init_quality(&g, nb_calls);

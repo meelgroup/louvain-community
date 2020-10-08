@@ -125,11 +125,14 @@ int main(int argc, char **argv)
         for (unsigned int i = 0; i < levels[0].size(); i++)
             n2c[i] = i;
 
-        for (l = 0; l < display_level; l++)
-            for (unsigned int node = 0; node < levels[0].size(); node++)
+        for (l = 0; l < display_level; l++) {
+            for (unsigned int node = 0; node < levels[0].size(); node++) {
                 n2c[node] = levels[l][n2c[node]];
+            }
+        }
 
-        for (unsigned int node = 0; node < levels[0].size(); node++)
+        for (unsigned int node = 0; node < levels[0].size(); node++) {
             cout << node << " " << n2c[node] << endl;
+        }
     }
 }
