@@ -86,7 +86,6 @@ int main(int /*argc*/, char ** /*argv*/)
 
     unsigned short nb_calls = 0;
 
-    //Graph g;
     Graph g("graph.bin", "graph.weights", WEIGHTED);
     q = new Modularity(g);
     nb_calls++;

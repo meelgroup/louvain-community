@@ -101,7 +101,7 @@ int main(int argc, char **argv)
 {
     parse_args(argc, argv);
 
-    Graph g(infile, type);
+    GraphPlain g(infile, type);
 
     g.clean(type);
 

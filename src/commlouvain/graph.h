@@ -44,12 +44,12 @@
 
 using namespace std;
 
-class Graph
+class GraphPlain
 {
    public:
     vector<vector<pair<int, long double> > > links;
 
-    Graph(char *filename, int type);
+    GraphPlain(char *filename, int type);
 
     void clean(int type);
     void renumber(int type, char *filename);

@@ -34,7 +34,7 @@
 
 using namespace std;
 
-Graph::Graph(char *filename, int type)
+GraphPlain::GraphPlain(char *filename, int type)
 {
     ifstream finput;
     finput.open(filename, fstream::in);
@@ -71,7 +71,7 @@ Graph::Graph(char *filename, int type)
     finput.close();
 }
 
-void Graph::renumber(int type, char *filename)
+void GraphPlain::renumber(int type, char *filename)
 {
     vector<int> linked(links.size(), -1);
     vector<int> renum(links.size(), -1);
@@ -103,7 +103,7 @@ void Graph::renumber(int type, char *filename)
     links.resize(nb);
 }
 
-void Graph::clean(int type)
+void GraphPlain::clean(int type)
 {
     for (unsigned int i = 0; i < links.size(); i++) {
         map<int, long double> m;
@@ -125,7 +125,7 @@ void Graph::clean(int type)
     }
 }
 
-void Graph::display(int type)
+void GraphPlain::display(int type)
 {
     for (unsigned int i = 0; i < links.size(); i++) {
         for (unsigned int j = 0; j < links[i].size(); j++) {
@@ -139,7 +139,7 @@ void Graph::display(int type)
     }
 }
 
-void Graph::display_binary(char *filename, char *filename_w, int type)
+void GraphPlain::display_binary(char *filename, char *filename_w, int type)
 {
     ofstream foutput;
     foutput.open(filename, fstream::out | fstream::binary);
