@@ -17,7 +17,7 @@ echo "Last level: $lastlevel"
 set +e
 ret=`diff final_level_example level_${lastlevel}`
 if [ "$ret" == "" ]; then
-    echo "OK! Match."
+    echo "OK! Match. Example and normal pipeline give the same result"
 else
     echo "NO MATCH!!!!"
     exit -1
