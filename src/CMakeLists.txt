@@ -77,7 +77,7 @@ add_executable(comml-louvain
 )
 
 add_executable(example
-    main_test.cpp
+    main_example.cpp
 )
 
 
