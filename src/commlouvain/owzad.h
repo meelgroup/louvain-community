@@ -30,8 +30,8 @@
 //-----------------------------------------------------------------------------
 // see README.txt for more details
 
-#ifndef OWZAD_H
-#define OWZAD_H
+#ifndef LOUVAIN_OWZAD_H
+#define LOUVAIN_OWZAD_H
 
 #include "quality.h"
 
@@ -92,4 +92,4 @@ inline long double OwZad::gain(int node, int comm, long double dnc, long double 
     return gain;
 }
 
-#endif // OWZAD_H
+#endif // LOUVAIN_OWZAD_H

@@ -30,8 +30,8 @@
 //-----------------------------------------------------------------------------
 // see README.txt for more details
 
-#ifndef GOLDBERG_H
-#define GOLDBERG_H
+#ifndef LOUVAIN_GOLDBERG_H
+#define LOUVAIN_GOLDBERG_H
 
 #include "quality.h"
 
@@ -98,4 +98,4 @@ inline long double Goldberg::gain(int node, int comm, long double dnc, long doub
     return gain;
 }
 
-#endif // GOLDBERG_H
+#endif // LOUVAIN_GOLDBERG_H

@@ -30,8 +30,8 @@
 //-----------------------------------------------------------------------------
 // see README.txt for more details
 
-#ifndef ZAHN_H
-#define ZAHN_H
+#ifndef LOUVAIN_ZAHN_H
+#define LOUVAIN_ZAHN_H
 
 #include "quality.h"
 
@@ -89,4 +89,4 @@ inline long double Zahn::gain(int node, int comm, long double dnc, long double /
     return gain;
 }
 
-#endif // ZAHN_H
+#endif // LOUVAIN_ZAHN_H

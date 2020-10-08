@@ -30,8 +30,8 @@
 //-----------------------------------------------------------------------------
 // see README.txt for more details
 
-#ifndef DEVUNI_H
-#define DEVUNI_H
+#ifndef LOUVAIN_DEVUNI_H
+#define LOUVAIN_DEVUNI_H
 
 #include "quality.h"
 
@@ -90,4 +90,4 @@ inline long double DevUni::gain(int node, int comm, long double dnc, long double
     return gain;
 }
 
-#endif // DEVUNI_H
+#endif // LOUVAIN_DEVUNI_H

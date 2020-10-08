@@ -30,8 +30,8 @@
 //-----------------------------------------------------------------------------
 // see README.txt for more details
 
-#ifndef QUALITY_H
-#define QUALITY_H
+#ifndef LOUVAIN_QUALITY_H
+#define LOUVAIN_QUALITY_H
 
 #include <sstream>
 
@@ -74,4 +74,4 @@ std::string to_string(T number)
     return oss.str();
 }
 
-#endif // QUALITY_H
+#endif // LOUVAIN_QUALITY_H

@@ -30,8 +30,8 @@
 //-----------------------------------------------------------------------------
 // see README.txt for more details
 
-#ifndef BALMOD_H
-#define BALMOD_H
+#ifndef LOUVAIN_BALMOD_H
+#define LOUVAIN_BALMOD_H
 
 #include "quality.h"
 
@@ -101,4 +101,4 @@ inline long double BalMod::gain(int node, int comm, long double dnc, long double
     return gain;
 }
 
-#endif // BALMOD_H
+#endif // LOUVAIN_BALMOD_H

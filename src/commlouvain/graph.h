@@ -30,8 +30,8 @@
 //-----------------------------------------------------------------------------
 // see README.txt for more details
 
-#ifndef GRAPH_H
-#define GRAPH_H
+#ifndef LOUVAIN_GRAPHPLAIN_H
+#define LOUVAIN_GRAPHPLAIN_H
 
 #include <algorithm>
 #include <fstream>
@@ -57,4 +57,4 @@ class GraphPlain
     void display_binary(char *filename, char *filename_w, int type);
 };
 
-#endif // GRAPH_H
+#endif // LOUVAIN_GRAPHPLAIN

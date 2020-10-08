@@ -30,8 +30,8 @@
 //-----------------------------------------------------------------------------
 // see README.txt for more details
 
-#ifndef GRAPH_H
-#define GRAPH_H
+#ifndef LOUVAIN_GRAPHBINARY_H
+#define LOUVAIN_GRAPHBINARY_H
 
 #include <assert.h>
 #include <algorithm>
@@ -151,4 +151,4 @@ inline pair<vector<int>::iterator, vector<long double>::iterator> Graph::neighbo
         return make_pair(links.begin() + degrees[node - 1], weights.begin());
 }
 
-#endif // GRAPH_H
+#endif // LOUVAIN_GRAPHBINARY_H

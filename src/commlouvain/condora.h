@@ -30,8 +30,8 @@
 //-----------------------------------------------------------------------------
 // see README.txt for more details
 
-#ifndef CONDORA_H
-#define CONDORA_H
+#ifndef LOUVAIN_CONDORA_H
+#define LOUVAIN_CONDORA_H
 
 #include "quality.h"
 
@@ -84,4 +84,4 @@ inline long double CondorA::gain(int node, int /*comm*/, long double dnc, long d
     return dnc;
 }
 
-#endif // CONDORA_H
+#endif // LOUVAIN_CONDORA_H

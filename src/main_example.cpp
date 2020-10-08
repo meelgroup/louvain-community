@@ -32,6 +32,7 @@
 
 #include <unistd.h>
 #include "commlouvain/graph_binary.h"
+#include "commlouvain/graph.h"
 #include "commlouvain/louvain.h"
 
 #include "commlouvain/balmod.h"
@@ -86,6 +87,7 @@ int main(int /*argc*/, char ** /*argv*/)
 
     unsigned short nb_calls = 0;
 
+    GraphPlain gplain("graph.txt", WEIGHTED);
     Graph g("graph.bin", "graph.weights", WEIGHTED);
     q = new Modularity(g);
     nb_calls++;

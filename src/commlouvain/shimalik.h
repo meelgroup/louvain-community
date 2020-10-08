@@ -30,8 +30,8 @@
 //-----------------------------------------------------------------------------
 // see README.txt for more details
 
-#ifndef SHIMALIK_H
-#define SHIMALIK_H
+#ifndef LOUVAIN_SHIMALIK_H
+#define LOUVAIN_SHIMALIK_H
 
 #include "quality.h"
 
@@ -108,4 +108,4 @@ inline long double ShiMalik::gain(int node, int comm, long double dnc, long doub
         return gain;
 }
 
-#endif // SHIMALIK_H
+#endif // LOUVAIN_SHIMALIK_H

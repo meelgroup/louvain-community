@@ -30,8 +30,8 @@
 //-----------------------------------------------------------------------------
 // see README.txt for more details
 
-#ifndef DEVIND_H
-#define DEVIND_H
+#ifndef LOUVAIN_DEVIND_H
+#define LOUVAIN_DEVIND_H
 
 #include "quality.h"
 
@@ -93,4 +93,4 @@ inline long double DevInd::gain(int node, int comm, long double dnc, long double
     return gain;
 }
 
-#endif // DEVIND_H
+#endif // LOUVAIN_DEVIND_H

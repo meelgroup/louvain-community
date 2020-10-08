@@ -30,8 +30,8 @@
 //-----------------------------------------------------------------------------
 // see README.txt for more details
 
-#ifndef MODULARITY_H
-#define MODULARITY_H
+#ifndef LOUVAIN_MODULARITY_H
+#define LOUVAIN_MODULARITY_H
 
 #include "quality.h"
 
@@ -84,4 +84,4 @@ inline long double Modularity::gain(int node, int comm, long double dnc, long do
     return (dnc - totc * degc / m2);
 }
 
-#endif // MODULARITY_H
+#endif // LOUVAIN_MODULARITY_H

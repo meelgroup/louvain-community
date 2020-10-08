@@ -30,8 +30,8 @@
 //-----------------------------------------------------------------------------
 // see README.txt for more details
 
-#ifndef DP_H
-#define DP_H
+#ifndef LOUVAIN_DP_H
+#define LOUVAIN_DP_H
 
 #include "quality.h"
 
@@ -113,4 +113,4 @@ inline long double DP::gain(int node, int comm, long double dnc, long double /*d
     return gain;
 }
 
-#endif // DP_H
+#endif // LOUVAIN_DP_H
