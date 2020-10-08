@@ -9,17 +9,17 @@
 // Copyright (C) 2013 R. Campigotto, P. Conde Céspedes, J.-L. Guillaume
 //
 // This file is part of Louvain algorithm.
-// 
+//
 // Louvain algorithm is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // Louvain algorithm is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Lesser General Public License
 // along with Louvain algorithm.  If not, see <http://www.gnu.org/licenses/>.
 //-----------------------------------------------------------------------------
@@ -30,7 +30,6 @@
 //-----------------------------------------------------------------------------
 // see README.txt for more details
 
-
 #ifndef OWZAD_H
 #define OWZAD_H
 
@@ -38,62 +37,59 @@
 
 using namespace std;
 
+class OwZad : public Quality
+{
+   public:
+    // used to compute the quality participation of each community
+    vector<long double> in;
+    vector<int> w;
 
-class OwZad: public Quality {
- public:
+    long double alpha;
 
-  // used to compute the quality participation of each community
-  vector<long double> in;
-  vector<int> w;
+    long double max; // biggest weight on links
 
-  long double alpha;
+    OwZad(Graph& gr, long double al, long double max_w);
+    ~OwZad();
 
-  long double max; // biggest weight on links
+    inline void remove(int node, int comm, long double dnodecomm);
 
-  OwZad(Graph & gr, long double al, long double max_w);
-  ~OwZad();
+    inline void insert(int node, int comm, long double dnodecomm);
 
-  inline void remove(int node, int comm, long double dnodecomm);
+    inline long double gain(int node, int comm, long double dnodecomm, long double w_degree);
 
-  inline void insert(int node, int comm, long double dnodecomm);
-
-  inline long double gain(int node, int comm, long double dnodecomm, long double w_degree);
-
-  long double quality();
+    long double quality();
 };
 
+inline void OwZad::remove(int node, int comm, long double dnodecomm)
+{
+    assert(node >= 0 && node < size);
 
-inline void
-OwZad::remove(int node, int comm, long double dnodecomm) {
-  assert(node>=0 && node<size);
+    in[comm] -= 2.0L * dnodecomm + g.nb_selfloops(node);
+    w[comm] -= g.nodes_w[node];
 
-  in[comm] -= 2.0L*dnodecomm + g.nb_selfloops(node);
-  w[comm]  -= g.nodes_w[node];
-  
-  n2c[node] = -1;
+    n2c[node] = -1;
 }
 
-inline void
-OwZad::insert(int node, int comm, long double dnodecomm) {
-  assert(node>=0 && node<size);
-  
-  in[comm] += 2.0L*dnodecomm + g.nb_selfloops(node);
-  w[comm]  += g.nodes_w[node];
-  
-  n2c[node] = comm;
+inline void OwZad::insert(int node, int comm, long double dnodecomm)
+{
+    assert(node >= 0 && node < size);
+
+    in[comm] += 2.0L * dnodecomm + g.nb_selfloops(node);
+    w[comm] += g.nodes_w[node];
+
+    n2c[node] = comm;
 }
 
-inline long double
-OwZad::gain(int node, int comm, long double dnc, long double /*degc*/) {
-  assert(node>=0 && node<size);
-  
-  long double wc = (long double)w[comm];
-  long double wu = (long double)g.nodes_w[node];
-  
-  long double gain = dnc - alpha*wu*wc*max;
-  
-  return gain;
-}
+inline long double OwZad::gain(int node, int comm, long double dnc, long double /*degc*/)
+{
+    assert(node >= 0 && node < size);
 
+    long double wc = (long double)w[comm];
+    long double wu = (long double)g.nodes_w[node];
+
+    long double gain = dnc - alpha * wu * wc * max;
+
+    return gain;
+}
 
 #endif // OWZAD_H

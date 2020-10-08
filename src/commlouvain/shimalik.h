@@ -9,17 +9,17 @@
 // Copyright (C) 2013 R. Campigotto, P. Conde Céspedes, J.-L. Guillaume
 //
 // This file is part of Louvain algorithm.
-// 
+//
 // Louvain algorithm is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // Louvain algorithm is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Lesser General Public License
 // along with Louvain algorithm.  If not, see <http://www.gnu.org/licenses/>.
 //-----------------------------------------------------------------------------
@@ -30,7 +30,6 @@
 //-----------------------------------------------------------------------------
 // see README.txt for more details
 
-
 #ifndef SHIMALIK_H
 #define SHIMALIK_H
 
@@ -38,77 +37,75 @@
 
 using namespace std;
 
+class ShiMalik : public Quality
+{
+   public:
+    vector<long double> in, tot; // used to compute the quality participation of each community
+    int kappa;                   // number of communities
 
-class ShiMalik: public Quality {
- public:
+    int kmin;
 
-  vector<long double> in, tot; // used to compute the quality participation of each community
-  int kappa; // number of communities
+    ShiMalik(Graph& gr, int kappa_min);
+    ~ShiMalik();
 
-  int kmin;
+    inline void remove(int node, int comm, long double dnodecomm);
 
-  ShiMalik(Graph & gr, int kappa_min);
-  ~ShiMalik();
+    inline void insert(int node, int comm, long double dnodecomm);
 
-  inline void remove(int node, int comm, long double dnodecomm);
+    inline long double gain(int node, int comm, long double dnodecomm, long double w_degree);
 
-  inline void insert(int node, int comm, long double dnodecomm);
-
-  inline long double gain(int node, int comm, long double dnodecomm, long double w_degree);
-
-  long double quality();
+    long double quality();
 };
 
+inline void ShiMalik::remove(int node, int comm, long double dnodecomm)
+{
+    assert(node >= 0 && node < size);
 
-inline void
-ShiMalik::remove(int node, int comm, long double dnodecomm) {
-  assert(node>=0 && node<size);
+    in[comm] -= 2.0L * dnodecomm + g.nb_selfloops(node);
+    tot[comm] -= g.weighted_degree(node);
 
-  in[comm]  -= 2.0L*dnodecomm + g.nb_selfloops(node);
-  tot[comm] -= g.weighted_degree(node);
-  
-  if (tot[comm] == 0.0L)
-    kappa--;
+    if (tot[comm] == 0.0L)
+        kappa--;
 
-  n2c[node] = -1;
+    n2c[node] = -1;
 }
 
-inline void
-ShiMalik::insert(int node, int comm, long double dnodecomm) {
-  assert(node>=0 && node<size);
+inline void ShiMalik::insert(int node, int comm, long double dnodecomm)
+{
+    assert(node >= 0 && node < size);
 
-  in[comm] += 2.0L*dnodecomm + g.nb_selfloops(node);
+    in[comm] += 2.0L * dnodecomm + g.nb_selfloops(node);
 
-  if (tot[comm] == 0.0L)
-    kappa++;
-  
-  tot[comm] += g.weighted_degree(node);
+    if (tot[comm] == 0.0L)
+        kappa++;
 
-  n2c[node] = comm;
+    tot[comm] += g.weighted_degree(node);
+
+    n2c[node] = comm;
 }
 
-inline long double
-ShiMalik::gain(int node, int comm, long double dnc, long double degc) {
-  assert(node>=0 && node<size);
+inline long double ShiMalik::gain(int node, int comm, long double dnc, long double degc)
+{
+    assert(node >= 0 && node < size);
 
-  long double inc  = in[comm];
-  long double totc = tot[comm];
-  long double self = g.nb_selfloops(node);
-  
-  long double gain;
-  
-  if (totc == 0.0L) {
-    gain  = (2.0L*dnc+self) / degc;
-    gain -= 1.0L;
-  }
-  else {
-    gain  = (inc + 2.0L*dnc+self) / (totc+degc);
-    gain -= inc/totc;
-  }
+    long double inc = in[comm];
+    long double totc = tot[comm];
+    long double self = g.nb_selfloops(node);
 
-  if (kappa < kmin) return 0.0L;
-  else return gain;
+    long double gain;
+
+    if (totc == 0.0L) {
+        gain = (2.0L * dnc + self) / degc;
+        gain -= 1.0L;
+    } else {
+        gain = (inc + 2.0L * dnc + self) / (totc + degc);
+        gain -= inc / totc;
+    }
+
+    if (kappa < kmin)
+        return 0.0L;
+    else
+        return gain;
 }
-
 
 #endif // SHIMALIK_H
