@@ -242,7 +242,7 @@ init_quality(Graph *g, unsigned short nbc) {
 int
 main(int argc, char **argv) {
 
-  srand(time(NULL)+getpid());
+  srand(0);
   
   parse_args(argc, argv);
   

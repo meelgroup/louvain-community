@@ -95,7 +95,7 @@ def compute_best_part(G, show=True):
     T = time.time()
     # compute the best partition
     if True:
-        partition = community_louvain.best_partition(G)
+        partition = community_louvain.best_partition(G, random_state=1)
     else:
         partition = community.greedy_modularity_communities(G)
         #partition = community.asyn_lpa_communities(G)
