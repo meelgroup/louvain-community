@@ -9,17 +9,17 @@
 // Copyright (C) 2013 R. Campigotto, P. Conde Céspedes, J.-L. Guillaume
 //
 // This file is part of Louvain algorithm.
-// 
+//
 // Louvain algorithm is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // Louvain algorithm is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Lesser General Public License
 // along with Louvain algorithm.  If not, see <http://www.gnu.org/licenses/>.
 //-----------------------------------------------------------------------------
@@ -30,50 +30,50 @@
 //-----------------------------------------------------------------------------
 // see README.txt for more details
 
-
 #include "commlouvain/devuni.h"
 
 using namespace std;
 
+DevUni::DevUni(Graph& gr) : Quality(gr, "Deviation to Uniformity")
+{
+    n2c.resize(size);
 
-DevUni::DevUni(Graph & gr):Quality(gr,"Deviation to Uniformity") {
-  n2c.resize(size);
+    in.resize(size);
+    w.resize(size);
 
-  in.resize(size);
-  w.resize(size);
-  
-  // initialization
-  for (int i=0 ; i<size ; i++) {
-    n2c[i] = i;
-    in[i]  = g.nb_selfloops(i);
-    w[i]   = g.nodes_w[i];
-  }
-}
-
-DevUni::~DevUni() {
-  in.clear();
-  w.clear();
-}
-
-long double
-DevUni::quality() {
-  long double q  = 0.0L;
-  long double n  = (long double)g.sum_nodes_w;
-  long double m2 = g.total_weight;
-
-  long double sum = 0.0L;
-
-  for (int i=0 ; i<size ; i++) {
-    long double wc = (long double)w[i];
-    if (wc > 0.0L) {
-      q += in[i];
-      sum += wc*wc;
+    // initialization
+    for (int i = 0; i < size; i++) {
+        n2c[i] = i;
+        in[i] = g.nb_selfloops(i);
+        w[i] = g.nodes_w[i];
     }
-  }
-  
-  q -= sum * (m2/(n*n));
+}
 
-  q /= m2;
-  
-  return q;
+DevUni::~DevUni()
+{
+    in.clear();
+    w.clear();
+}
+
+long double DevUni::quality()
+{
+    long double q = 0.0L;
+    long double n = (long double)g.sum_nodes_w;
+    long double m2 = g.total_weight;
+
+    long double sum = 0.0L;
+
+    for (int i = 0; i < size; i++) {
+        long double wc = (long double)w[i];
+        if (wc > 0.0L) {
+            q += in[i];
+            sum += wc * wc;
+        }
+    }
+
+    q -= sum * (m2 / (n * n));
+
+    q /= m2;
+
+    return q;
 }

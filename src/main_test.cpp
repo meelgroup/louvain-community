@@ -30,21 +30,20 @@
 //-----------------------------------------------------------------------------
 // see README.txt for more details
 
-
+#include <unistd.h>
 #include "commlouvain/graph_binary.h"
 #include "commlouvain/louvain.h"
-#include <unistd.h>
 
-#include "commlouvain/modularity.h"
-#include "commlouvain/zahn.h"
-#include "commlouvain/owzad.h"
-#include "commlouvain/goldberg.h"
+#include "commlouvain/balmod.h"
 #include "commlouvain/condora.h"
 #include "commlouvain/devind.h"
 #include "commlouvain/devuni.h"
 #include "commlouvain/dp.h"
+#include "commlouvain/goldberg.h"
+#include "commlouvain/modularity.h"
+#include "commlouvain/owzad.h"
 #include "commlouvain/shimalik.h"
-#include "commlouvain/balmod.h"
+#include "commlouvain/zahn.h"
 
 int type = UNWEIGHTED;
 long double precision = 0.000001L;
@@ -58,12 +57,10 @@ long double max_w = 1.0L;
 Quality *q;
 bool verbose = true;
 
-
 using namespace std;
 
-int
-main(int /*argc*/, char **/*argv*/) {
-
+int main(int /*argc*/, char ** /*argv*/)
+{
     srand(0);
 
     time_t time_begin, time_end;
@@ -88,10 +85,8 @@ main(int /*argc*/, char **/*argv*/) {
 
     do {
         cerr << "level " << level << ":\n";
-        cerr << "  network size: "
-        << (c.qual)->g.nb_nodes << " nodes, "
-        << (c.qual)->g.nb_links << " links, "
-        << (c.qual)->g.total_weight << " weight" << endl;
+        cerr << "  network size: " << (c.qual)->g.nb_nodes << " nodes, " << (c.qual)->g.nb_links
+             << " links, " << (c.qual)->g.total_weight << " weight" << endl;
 
         improvement = c.one_level();
         new_qual = (c.qual)->quality();
@@ -109,10 +104,10 @@ main(int /*argc*/, char **/*argv*/) {
 
         quality = new_qual;
         level++;
-    } while(improvement);
+    } while (improvement);
 
     time(&time_end);
-    cerr << "Total duration: " << (time_end-time_begin) << " sec" << endl;
+    cerr << "Total duration: " << (time_end - time_begin) << " sec" << endl;
     cerr << new_qual << endl;
 
     delete q;

@@ -9,17 +9,17 @@
 // Copyright (C) 2013 R. Campigotto, P. Conde Céspedes, J.-L. Guillaume
 //
 // This file is part of Louvain algorithm.
-// 
+//
 // Louvain algorithm is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // Louvain algorithm is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Lesser General Public License
 // along with Louvain algorithm.  If not, see <http://www.gnu.org/licenses/>.
 //-----------------------------------------------------------------------------
@@ -30,44 +30,47 @@
 //-----------------------------------------------------------------------------
 // see README.txt for more details
 
-
 #include "commlouvain/shimalik.h"
 
 using namespace std;
 
+ShiMalik::ShiMalik(Graph& gr, int kappa_min)
+    : Quality(gr, "Shi-Malik (with kmin=" + to_string(kappa_min) + ")"),
+      kappa(size),
+      kmin(kappa_min)
+{
+    n2c.resize(size);
 
-ShiMalik::ShiMalik(Graph & gr, int kappa_min):Quality(gr,"Shi-Malik (with kmin=" + to_string(kappa_min) + ")"), kappa(size),kmin(kappa_min) {
-  n2c.resize(size);
+    in.resize(size);
+    tot.resize(size);
 
-  in.resize(size);
-  tot.resize(size);
-
-  // initialization
-  for (int i=0 ; i<size ; i++) {
-    n2c[i] = i;
-    in[i]  = g.nb_selfloops(i);
-    tot[i] = g.weighted_degree(i);
-  }
+    // initialization
+    for (int i = 0; i < size; i++) {
+        n2c[i] = i;
+        in[i] = g.nb_selfloops(i);
+        tot[i] = g.weighted_degree(i);
+    }
 }
 
-ShiMalik::~ShiMalik() {
-  in.clear();
-  tot.clear();
+ShiMalik::~ShiMalik()
+{
+    in.clear();
+    tot.clear();
 }
 
-long double
-ShiMalik::quality() {
-  long double q  = 0.0L;
-  long double n = (long double)g.sum_nodes_w;
+long double ShiMalik::quality()
+{
+    long double q = 0.0L;
+    long double n = (long double)g.sum_nodes_w;
 
-  for (int i=0 ; i<size ; i++) {
-    if (tot[i] > 0.0L)
-      q += in[i] / tot[i];
-  }
-  
-  q -= (long double)kappa;
+    for (int i = 0; i < size; i++) {
+        if (tot[i] > 0.0L)
+            q += in[i] / tot[i];
+    }
 
-  q /= n;
-  
-  return q;
+    q -= (long double)kappa;
+
+    q /= n;
+
+    return q;
 }
