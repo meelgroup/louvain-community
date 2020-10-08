@@ -88,6 +88,7 @@ int main(int /*argc*/, char ** /*argv*/)
     unsigned short nb_calls = 0;
 
     GraphPlain gplain("graph.txt", WEIGHTED);
+    gplain.display_binary("graph.bin", "graph.weights", WEIGHTED);
     Graph g("graph.bin", "graph.weights", WEIGHTED);
     q = new Modularity(g);
     nb_calls++;

@@ -9,6 +9,7 @@ rm -f level2 level3 level4 level5 part
 ./comml-convert -i graph.txt -o graph.bin -w graph.weights
 # OLD ./comml-louvain  graph.bin -w graph.weights -l -1 -e 0.001 -v > graph.tree
 ./comml-louvain  graph.bin -w graph.weights -l -1 -v > graph.tree
+rm graph.bin graph.weights
 ./example > final_level_example 2> out2
 cat out2
 lastlevel=`grep level out2 | tail -n 1  | awk '{print $2}' | sed "s/://"`
