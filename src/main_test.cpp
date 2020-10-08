@@ -71,13 +71,13 @@ main(int /*argc*/, char **/*argv*/) {
 
     unsigned short nb_calls = 0;
 
-    Graph g;
+    //Graph g;
+    Graph g("graph.bin", "graph.weights", WEIGHTED);
     q = new Modularity(g);
     nb_calls++;
 
-    cout << "Computation of communities with the " << q->name << " quality function" << endl;
+    cerr << "Computation of communities with the " << q->name << " quality function" << endl;
     Louvain c(-1, precision, q);
-    c.init_partition(NULL);
 
     bool improvement = true;
 
@@ -87,8 +87,8 @@ main(int /*argc*/, char **/*argv*/) {
     int level = 0;
 
     do {
-        cout << "level " << level << ":\n";
-        cout << "  network size: "
+        cerr << "level " << level << ":\n";
+        cerr << "  network size: "
         << (c.qual)->g.nb_nodes << " nodes, "
         << (c.qual)->g.nb_links << " links, "
         << (c.qual)->g.total_weight << " weight" << endl;
@@ -96,10 +96,7 @@ main(int /*argc*/, char **/*argv*/) {
         improvement = c.one_level();
         new_qual = (c.qual)->quality();
 
-        if (++level==display_level)
-            (c.qual)->g.display();
-        if (display_level==-1)
-            c.display_partition();
+        c.display_partition();
 
         g = c.partition2graph_binary();
         delete q;
@@ -108,14 +105,14 @@ main(int /*argc*/, char **/*argv*/) {
 
         c = Louvain(-1, precision, q);
 
-        cout << "  quality increased from " << quality << " to " << new_qual << endl;
+        cerr << "  quality increased from " << quality << " to " << new_qual << endl;
 
         quality = new_qual;
-
+        level++;
     } while(improvement);
 
     time(&time_end);
-    cout << "Total duration: " << (time_end-time_begin) << " sec" << endl;
+    cerr << "Total duration: " << (time_end-time_begin) << " sec" << endl;
     cerr << new_qual << endl;
 
     delete q;

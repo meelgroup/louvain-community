@@ -71,7 +71,7 @@ def convert_cnf_to_vig_graph(maxvar, cls):
                 x = abs(cl[i1])
                 y = abs(cl[i2])
                 name = "%d,%d" % (x,y)
-                amount = 1.0/(len(cl)*(len(cl)-1)/2.0)
+                amount = 1.0/(len(cl)*(len(cl)-1.0)/2.0)
                 if name not in w:
                     w[name] = amount
                 else:
@@ -89,6 +89,10 @@ def print_graph(G):
     with open("graph.txt", "w") as f:
         for a, b, weight in G.edges.data("weight"):
             f.write("%d  %d %f\n" % (a,b, weight))
+
+    with open("graph_unw.txt", "w") as f:
+        for a, b in G.edges:
+            f.write("%d  %d\n" % (a,b))
 
 
 def compute_best_part(G, show=True):
