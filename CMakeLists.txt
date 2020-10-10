@@ -347,43 +347,6 @@ MESSAGE(STATUS "PROJECT_VERSION_MAJOR: ${PROJECT_VERSION_MAJOR}")
 MESSAGE(STATUS "PROJECT_VERSION_MINOR: ${PROJECT_VERSION_MINOR}")
 MESSAGE(STATUS "PROJECT_VERSION_PATCH: ${PROJECT_VERSION_PATCH}")
 
-
-option(EMSCRIPTEN "Generate only emscripten JS" OFF)
-if (NOT EMSCRIPTEN)
-    set (boost_components "")
-    set(boost_components ${boost_components} program_options)
-    find_package( Boost 1.46 COMPONENTS ${boost_components})
-endif()
-
-# ----------
-# manpage
-# ----------
-if (${CMAKE_SYSTEM_NAME} MATCHES "Linux" AND NOT EMSCRIPTEN)
-    find_program(HELP2MAN_FOUND help2man)
-    if (HELP2MAN_FOUND)
-        ADD_CUSTOM_TARGET(man_comml
-            ALL
-            DEPENDS comml-louvain
-        )
-
-        ADD_CUSTOM_COMMAND(
-            TARGET man_comml
-            COMMAND help2man
-            ARGS --no-discard-stderr --version-string=${COMMLOUVAIN_FULL_VERSION} --help-option="-h" $<TARGET_FILE:comml-louvain> -o ${CMAKE_CURRENT_BINARY_DIR}/comml-louvain.1
-        )
-
-        INSTALL(
-            FILES ${CMAKE_CURRENT_BINARY_DIR}/comml-louvain.1
-            DESTINATION ${CMAKE_INSTALL_PREFIX}/man/man1)
-
-        message(STATUS "Manpage will be created and installed")
-    else()
-        MESSAGE(STATUS "Cannot find help2man, not creating manpage")
-    endif()
-else()
-    MESSAGE(STATUS "Not on Linux, not creating manpage")
-endif()
-
 #query definitions
 get_directory_property( DirDefs DIRECTORY ${CMAKE_SOURCE_DIR} COMPILE_DEFINITIONS )
 set(COMPILE_DEFINES)
@@ -463,11 +426,16 @@ export(
 
 # Create commlouvainConfig file
 set(EXPORT_TYPE "Build-tree")
-set(CONF_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/src")
+set(CONF_INCLUDE_DIRS "${CMAKE_CURRENT_BINARY_DIR}/include")
 configure_file(commlouvainConfig.cmake.in
     "${CMAKE_CURRENT_BINARY_DIR}/${COMMLOUVAIN_CONFIG_FILENAME}" @ONLY
 )
 
+# Export this package to the CMake user package registry
+# Now the user can just use find_package(commlouvain) on their system
+export(PACKAGE commlouvain)
+
+set(DEF_INSTALL_CMAKE_DIR lib/cmake/commlouvain)
 set(COMMLOUVAIN_INSTALL_CMAKE_DIR ${DEF_INSTALL_CMAKE_DIR} CACHE PATH
     "Installation directory for comml CMake files")
 

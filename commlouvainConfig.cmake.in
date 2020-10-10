@@ -1,7 +1,7 @@
 # Config file for the @EXPORT_TYPE@ cryptominisat Package
 # It defines the following variables
-#  COMMLOUVAINOUVAIN_INCLUDE_DIRS - include directories for cryptominisat5
-#  COMMLOUVAINOUVAIN_LIBRARIES    - libraries to link against
+#  COMMLOUVAIN_INCLUDE_DIRS - include directories for comm_louvain
+#  COMMLOUVAIN_LIBRARIES    - libraries to link against
 #  COMMLOUVAIN_EXECUTABLE   - the community-louvain executable
 
 # Compute paths
