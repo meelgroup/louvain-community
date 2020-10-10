@@ -30,7 +30,7 @@
 //-----------------------------------------------------------------------------
 // see README.txt for more details
 
-#include "commlouvain/modularity.h"
+#include "modularity.h"
 
 using namespace std;
 

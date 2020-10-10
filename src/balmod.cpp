@@ -30,7 +30,7 @@
 //-----------------------------------------------------------------------------
 // see README.txt for more details
 
-#include "commlouvain/balmod.h"
+#include "balmod.h"
 
 using namespace std;
 

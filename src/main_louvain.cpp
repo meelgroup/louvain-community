@@ -31,19 +31,19 @@
 // see README.txt for more details
 
 #include <unistd.h>
-#include "commlouvain/graph_binary.h"
-#include "commlouvain/louvain.h"
+#include "graph_binary.h"
+#include "louvain.h"
 
-#include "commlouvain/balmod.h"
-#include "commlouvain/condora.h"
-#include "commlouvain/devind.h"
-#include "commlouvain/devuni.h"
-#include "commlouvain/dp.h"
-#include "commlouvain/goldberg.h"
-#include "commlouvain/modularity.h"
-#include "commlouvain/owzad.h"
-#include "commlouvain/shimalik.h"
-#include "commlouvain/zahn.h"
+#include "balmod.h"
+#include "condora.h"
+#include "devind.h"
+#include "devuni.h"
+#include "dp.h"
+#include "goldberg.h"
+#include "modularity.h"
+#include "owzad.h"
+#include "shimalik.h"
+#include "zahn.h"
 
 using namespace std;
 

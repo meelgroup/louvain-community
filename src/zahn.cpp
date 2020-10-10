@@ -30,7 +30,7 @@
 //-----------------------------------------------------------------------------
 // see README.txt for more details
 
-#include "commlouvain/zahn.h"
+#include "zahn.h"
 
 using namespace std;
 

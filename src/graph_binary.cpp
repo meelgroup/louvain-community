@@ -30,7 +30,7 @@
 //-----------------------------------------------------------------------------
 // see README.txt for more details
 
-#include "commlouvain/graph_binary.h"
+#include "graph_binary.h"
 #include <fstream>
 
 GraphBin::GraphBin()
