@@ -1,24 +1,28 @@
-/******************************************
-Copyright (C) 2020 Mate Soos
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-***********************************************/
+// Community detection
+// Copyright by Mate Soos, based on the work below.
+//
+// Based on the article "Fast unfolding of community hierarchies in large networks"
+// Copyright (C) 2008 V. Blondel, J.-L. Guillaume, R. Lambiotte, E. Lefebvre
+//
+// And based on the article
+// Copyright (C) 2013 R. Campigotto, P. Conde Céspedes, J.-L. Guillaume
+//
+// Louvain algorithm is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Lesser General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Louvain algorithm is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with Louvain algorithm.  If not, see <http://www.gnu.org/licenses/>.
+//-----------------------------------------------------------------------------
+// Authors   : E. Lefebvre, adapted by J.-L. Guillaume and R. Campigotto, Mate Soos
+//-----------------------------------------------------------------------------
+// see README.txt for more details
 
 #include "louvain_communities.h"
 
@@ -41,6 +45,11 @@ THE SOFTWARE.
 namespace LouvainC {
 
 struct PrivateData {
+    PrivateData()
+    {
+        unsigned seed = 0;
+        mtrand.seed(seed);
+    }
     ~PrivateData()
     {
         delete q;
@@ -50,6 +59,7 @@ struct PrivateData {
     long double precision = 0.000001L;
     uint32_t verbosity = 0;
     vector<vector<int>> levels;
+    MTRand mtrand;
 
     //quality measure
     Quality *q = NULL;
@@ -75,6 +85,17 @@ DLL_PUBLIC void Communities::set_quality_type(unsigned id)
 {
     data->id_qual = id;
 }
+
+DLL_PUBLIC void Communities::set_random_seed(unsigned seed)
+{
+    data->mtrand.seed(seed);
+}
+
+DLL_PUBLIC void Communities::add_edge(unsigned int src, unsigned int dst, long double weight)
+{
+    data->gplain.add_edge(src, dst, weight);
+}
+
 
 void init_quality(PrivateData* data, GraphBin* g)
 {
@@ -141,8 +162,8 @@ DLL_PUBLIC void Communities::calculate(bool weighted)
     vector<unsigned long long> deg_seq;
     vector<int> out_links;
     vector<long double> out_w;
-    data->gplain.binary_to_mem(deg_seq, out_links, out_w, WEIGHTED);
-    GraphBin g(deg_seq, out_links, out_w, WEIGHTED);
+    data->gplain.binary_to_mem(deg_seq, out_links, out_w, weighted ? WEIGHTED : UNWEIGHTED);
+    GraphBin g(deg_seq, out_links, out_w, weighted ? WEIGHTED : UNWEIGHTED);
     init_quality(data, &g);
     data->nb_calls++;
 
@@ -150,11 +171,11 @@ DLL_PUBLIC void Communities::calculate(bool weighted)
         cout << "Computation of communities with the " << data->q->name
         << " quality function" << endl;
     }
-    Louvain c(-1, data->precision, data->q);
+    Louvain* c = new Louvain(-1, data->precision, data->q, data->mtrand);
 
     bool improvement = true;
 
-    long double quality = (c.qual)->quality();
+    long double quality = (c->qual)->quality();
     long double new_qual;
 
     int level = 0;
@@ -162,21 +183,22 @@ DLL_PUBLIC void Communities::calculate(bool weighted)
     do {
         if (data->verbosity) {
             cout << "level " << level << ":\n";
-            cout << "  network size: " << (c.qual)->g.nb_nodes << " nodes, " << (c.qual)->g.nb_links
-                 << " links, " << (c.qual)->g.total_weight << " weight" << endl;
+            cout << "  network size: " << (c->qual)->g.nb_nodes << " nodes, " << (c->qual)->g.nb_links
+                 << " links, " << (c->qual)->g.total_weight << " weight" << endl;
         }
 
-        improvement = c.one_level();
-        new_qual = (c.qual)->quality();
+        improvement = c->one_level();
+        new_qual = (c->qual)->quality();
 
         data->levels.push_back(vector<int>());
-        c.display_partition(&(data->levels[level]));
+        c->display_partition(&(data->levels[level]));
 
-        g = c.partition2graph_binary();
+        g = c->partition2graph_binary();
         init_quality(data, &g);
         data->nb_calls++;
 
-        c = Louvain(-1, data->precision, data->q);
+        delete c;
+        c = new Louvain(-1, data->precision, data->q, data->mtrand);
 
         if (data->verbosity) {
             cout << "  quality increased from " << quality << " to " << new_qual << endl;

@@ -40,6 +40,7 @@
 
 #include "graph_binary.h"
 #include "quality.h"
+#include "MersenneTwister.h"
 
 using namespace std;
 
@@ -49,6 +50,9 @@ class Louvain
     vector<long double> neigh_weight;
     vector<int> neigh_pos;
     int neigh_last;
+
+    //Random number generator
+    MTRand& mtrand;
 
     // number of pass for one level computation
     // if -1, compute as many pass as needed to increase quality
@@ -65,7 +69,7 @@ class Louvain
     // constructors:
     // reads graph from file using graph constructor
     // type defined the weighted/unweighted status of the graph file
-    Louvain(int nb_pass, long double eps_impr, Quality* q);
+    Louvain(int nb_pass, long double eps_impr, Quality* q, MTRand& mtrand);
 
     // initiliazes the partition with something else than all nodes alone
     void init_partition(char* filename_part);

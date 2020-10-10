@@ -57,7 +57,8 @@ namespace LouvainC {
 //             id = 8\t -> the Shi-Malik criterion (you should specify the value of kappa_min with option -k)
 //             id = 9\t -> the Balanced Modularity criterion
         void set_quality_type(unsigned id = 0);
-        void add_edge(unsigned src, unsigned dst, double weight = 1.0);
+        void set_random_seed(unsigned seed = 0);
+        void add_edge(unsigned src, unsigned dst, long double weight = 1.0);
         void calculate(bool weighted = false);
         const char* get_version();
         void set_verbosity(unsigned verb);

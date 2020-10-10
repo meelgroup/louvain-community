@@ -256,7 +256,9 @@ void init_quality(GraphBin *g, unsigned short nbc)
 
 int main(int argc, char **argv)
 {
-    srand(0);
+    MTRand mtrand;
+    unsigned tmp = 0;
+    mtrand.seed(tmp);
 
     parse_args(argc, argv);
 
@@ -277,13 +279,13 @@ int main(int argc, char **argv)
              << "Computation of communities with the " << q->name << " quality function" << endl
              << endl;
 
-    Louvain c(-1, precision, q);
+    Louvain* c = new Louvain(-1, precision, q, mtrand);
     if (filename_part != NULL)
-        c.init_partition(filename_part);
+        c->init_partition(filename_part);
 
     bool improvement = true;
 
-    long double quality = (c.qual)->quality();
+    long double quality = (c->qual)->quality();
     long double new_qual;
 
     int level = 0;
@@ -292,23 +294,24 @@ int main(int argc, char **argv)
         if (verbose) {
             cerr << "level " << level << ":\n";
             display_time("  start computation");
-            cerr << "  network size: " << (c.qual)->g.nb_nodes << " nodes, " << (c.qual)->g.nb_links
-                 << " links, " << (c.qual)->g.total_weight << " weight" << endl;
+            cerr << "  network size: " << (c->qual)->g.nb_nodes << " nodes, " << (c->qual)->g.nb_links
+                 << " links, " << (c->qual)->g.total_weight << " weight" << endl;
         }
 
-        improvement = c.one_level();
-        new_qual = (c.qual)->quality();
+        improvement = c->one_level();
+        new_qual = (c->qual)->quality();
 
         if (++level == display_level)
-            (c.qual)->g.display();
+            (c->qual)->g.display();
         if (display_level == -1)
-            c.display_partition(NULL);
+            c->display_partition(NULL);
 
-        g = c.partition2graph_binary();
+        g = c->partition2graph_binary();
         init_quality(&g, nb_calls);
         nb_calls++;
 
-        c = Louvain(-1, precision, q);
+        delete c;
+        c = new Louvain(-1, precision, q, mtrand);
 
         if (verbose)
             cerr << "  quality increased from " << quality << " to " << new_qual << endl;

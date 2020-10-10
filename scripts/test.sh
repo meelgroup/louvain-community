@@ -13,6 +13,7 @@ awk '{print "gplain.add_edge(" $1 ", " $2 ", " $3 "L);"}' graph.txt > ../src/myg
 rm graph.bin graph.weights
 make
 ./example > final_level_example 2> out2
+./example-libuse > final_level_example2
 cat out2
 lastlevel=`grep level out2 | tail -n 1  | awk '{print $2}' | sed "s/://"`
 echo "Last level: $lastlevel"
@@ -20,9 +21,17 @@ echo "Last level: $lastlevel"
 set +e
 ret=`diff final_level_example level_${lastlevel}`
 if [ "$ret" == "" ]; then
-    echo "OK! Match. Example and normal pipeline give the same result"
+    echo "OK. Match. Example and normal pipeline give the same result"
 else
-    echo "NO MATCH!!!!"
+    echo "NO MATCH!!!! Plain example is wrong!!"
+    exit -1
+fi
+
+ret=`diff final_level_example2 level_${lastlevel}`
+if [ "$ret" == "" ]; then
+    echo "OK. Match. Example-LIBUSE and normal pipeline give the same result"
+else
+    echo "NO MATCH!!!! LIBUSE is wrong!!"
     exit -1
 fi
 set -e

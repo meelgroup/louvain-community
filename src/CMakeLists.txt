@@ -100,6 +100,10 @@ add_executable(example
     main_example.cpp
 )
 
+add_executable(example-libuse
+    main_example2.cpp
+)
+
 
 
 ####################
@@ -115,6 +119,11 @@ target_link_libraries(comml-convert
 target_link_libraries(example
     commlouvain
 )
+
+target_link_libraries(example-libuse
+    louvain_communities
+)
+
 
 
 
@@ -137,6 +146,10 @@ set_target_properties(comml-louvain PROPERTIES
     INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 set_target_properties(example PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}
+    INSTALL_RPATH_USE_LINK_PATH TRUE)
+
+set_target_properties(example-libuse PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}
     INSTALL_RPATH_USE_LINK_PATH TRUE)
 

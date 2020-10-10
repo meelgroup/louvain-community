@@ -57,6 +57,7 @@ long double sum_sq = 0.0L;
 long double max_w = 1.0L;
 Quality *q;
 bool verbose = true;
+MTRand mtrand;
 
 using namespace std;
 
@@ -80,7 +81,8 @@ void print_final(vector<vector<int>>& levels)
 
 int main(int /*argc*/, char ** /*argv*/)
 {
-    srand(0);
+    unsigned tmp = 0;
+    mtrand.seed(tmp);
 
     time_t time_begin, time_end;
     time(&time_begin);
@@ -99,11 +101,11 @@ int main(int /*argc*/, char ** /*argv*/)
     nb_calls++;
 
     cerr << "Computation of communities with the " << q->name << " quality function" << endl;
-    Louvain c(-1, precision, q);
+    Louvain* c = new Louvain(-1, precision, q, mtrand);
 
     bool improvement = true;
 
-    long double quality = (c.qual)->quality();
+    long double quality = (c->qual)->quality();
     long double new_qual;
 
     int level = 0;
@@ -111,21 +113,22 @@ int main(int /*argc*/, char ** /*argv*/)
 
     do {
         cerr << "level " << level << ":\n";
-        cerr << "  network size: " << (c.qual)->g.nb_nodes << " nodes, " << (c.qual)->g.nb_links
-             << " links, " << (c.qual)->g.total_weight << " weight" << endl;
+        cerr << "  network size: " << (c->qual)->g.nb_nodes << " nodes, " << (c->qual)->g.nb_links
+             << " links, " << (c->qual)->g.total_weight << " weight" << endl;
 
-        improvement = c.one_level();
-        new_qual = (c.qual)->quality();
+        improvement = c->one_level();
+        new_qual = (c->qual)->quality();
 
         levels.push_back(vector<int>());
-        c.display_partition(&(levels[level]));
+        c->display_partition(&(levels[level]));
 
-        g = c.partition2graph_binary();
+        g = c->partition2graph_binary();
         delete q;
         q = new Modularity(g);
         nb_calls++;
 
-        c = Louvain(-1, precision, q);
+        delete c;
+        c = new Louvain(-1, precision, q, mtrand);
 
         cerr << "  quality increased from " << quality << " to " << new_qual << endl;
 

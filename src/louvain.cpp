@@ -31,7 +31,8 @@
 
 using namespace std;
 
-Louvain::Louvain(int nbp, long double epsq, Quality* q)
+Louvain::Louvain(int nbp, long double epsq, Quality* q, MTRand& _mtrand) :
+    mtrand(_mtrand)
 {
     qual = q;
 
@@ -228,7 +229,7 @@ bool Louvain::one_level()
     for (int i = 0; i < qual->size; i++)
         random_order[i] = i;
     for (int i = 0; i < qual->size - 1; i++) {
-        int rand_pos = rand() % (qual->size - i) + i;
+        int rand_pos = mtrand.randInt() % (qual->size - i) + i;
         int tmp = random_order[i];
         random_order[i] = random_order[rand_pos];
         random_order[rand_pos] = tmp;
