@@ -20,7 +20,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ***********************************************/
 
-#include "louvain_communities/louvain_communities.h"
+#include "louvain_communities.h"
 
 #include <unistd.h>
 #include "commlouvain/graph_binary.h"

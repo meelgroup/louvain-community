@@ -39,7 +39,6 @@ if (NOT WIN32)
 endif()
 
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/GitSHA1.cpp.in" "${CMAKE_CURRENT_BINARY_DIR}/GitSHA1.cpp" @ONLY)
-configure_file("${CMAKE_CURRENT_SOURCE_DIR}/louvain_communities.h.in" "${CMAKE_CURRENT_BINARY_DIR}/louvain_communities/louvain_communities.h" @ONLY)
 
 add_library(commlouvain
     balmod.cpp
@@ -142,7 +141,7 @@ set_target_properties(example PROPERTIES
     INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 commlouvain_add_public_header(
-    louvain_communities ${CMAKE_CURRENT_BINARY_DIR}/louvain_communities/louvain_communities.h )
+    louvain_communities ${CMAKE_CURRENT_SOURCE_DIR}/louvain_communities.h )
 
 # -----------------------------------------------------------------------------
 # Copy public headers into build directory include directory.
