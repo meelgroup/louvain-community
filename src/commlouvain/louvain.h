@@ -81,7 +81,7 @@ class Louvain
     void display_partition(vector<int>* level = NULL);
 
     // generates the binary graph of communities as computed by one_level
-    Graph partition2graph_binary();
+    GraphBin partition2graph_binary();
 
     // compute communities of the graph for one level
     // return true if some nodes have been moved

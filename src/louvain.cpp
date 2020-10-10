@@ -148,7 +148,7 @@ void Louvain::display_partition(vector<int>* level)
     }
 }
 
-Graph Louvain::partition2graph_binary()
+GraphBin Louvain::partition2graph_binary()
 {
     // Renumber communities
     vector<int> renumber(qual->size, -1);
@@ -171,7 +171,7 @@ Graph Louvain::partition2graph_binary()
     }
 
     // Compute weighted graph
-    Graph g2;
+    GraphBin g2;
     int nbc = comm_nodes.size();
 
     g2.nb_nodes = comm_nodes.size();

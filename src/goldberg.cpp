@@ -34,7 +34,7 @@
 
 using namespace std;
 
-Goldberg::Goldberg(Graph& gr, long double max_w) : Quality(gr, "Goldberg Density"), max(max_w)
+Goldberg::Goldberg(GraphBin& gr, long double max_w) : Quality(gr, "Goldberg Density"), max(max_w)
 {
     n2c.resize(size);
 

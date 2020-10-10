@@ -43,7 +43,7 @@ class DevUni : public Quality
     vector<long double> in; // used to compute the quality participation of each community
     vector<int> w;          // used to store size of communities
 
-    DevUni(Graph& gr);
+    DevUni(GraphBin& gr);
     ~DevUni();
 
     inline void remove(int node, int comm, long double dnodecomm);

@@ -34,7 +34,7 @@
 
 using namespace std;
 
-Modularity::Modularity(Graph& gr) : Quality(gr, "Newman-Girvan Modularity")
+Modularity::Modularity(GraphBin& gr) : Quality(gr, "Newman-Girvan Modularity")
 {
     n2c.resize(size);
 

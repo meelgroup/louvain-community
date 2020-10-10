@@ -34,7 +34,7 @@
 
 using namespace std;
 
-BalMod::BalMod(Graph& gr, long double max_w) : Quality(gr, "Balanced Modularity"), max(max_w)
+BalMod::BalMod(GraphBin& gr, long double max_w) : Quality(gr, "Balanced Modularity"), max(max_w)
 {
     n2c.resize(size);
 

@@ -34,7 +34,24 @@
 
 using namespace std;
 
-GraphPlain::GraphPlain(char *filename, int type)
+GraphPlain::GraphPlain()
+{
+}
+
+void GraphPlain::add_edge(uint32_t src, uint32_t dest, long double weight)
+{
+    if (links.size() <= max(src, dest) + 1) {
+        links.resize(max(src, dest) + 1);
+    }
+
+    links[src].push_back(make_pair(dest, weight));
+    if (src != dest) {
+        links[dest].push_back(make_pair(src, weight));
+    }
+}
+
+
+GraphPlain::GraphPlain(const char *filename, int type)
 {
     ifstream finput;
     finput.open(filename, fstream::in);
@@ -139,7 +156,42 @@ void GraphPlain::display(int type)
     }
 }
 
-void GraphPlain::display_binary(char *filename, char *filename_w, int type)
+void GraphPlain::binary_to_mem(
+    vector<uint64_t>& out_deg_seq,
+    vector<int>& out_links,
+    vector<long double>& out_w,
+    int type)
+{
+    const int s = links.size();
+
+    // outputs cumulative degree sequence
+    unsigned long long tot = 0ULL;
+    for (int i = 0; i < s; i++) {
+        tot += (unsigned long long)links[i].size();
+        out_deg_seq.push_back(tot);
+    }
+
+    // outputs links
+    for (int i = 0; i < s; i++) {
+        for (unsigned int j = 0; j < links[i].size(); j++) {
+            int dest = links[i][j].first;
+            out_links.push_back(dest);
+        }
+    }
+
+    // outputs weights
+    if (type == WEIGHTED) {
+        for (int i = 0; i < s; i++) {
+            for (unsigned int j = 0; j < links[i].size(); j++) {
+                long double weight = links[i][j].second;
+                out_w.push_back(weight);
+            }
+        }
+    }
+
+}
+
+void GraphPlain::display_binary(const char *filename, const char *filename_w, int type)
 {
     ofstream foutput;
     foutput.open(filename, fstream::out | fstream::binary);

@@ -34,7 +34,7 @@
 
 using namespace std;
 
-DP::DP(Graph &gr, long double sum, long double max_w)
+DP::DP(GraphBin &gr, long double sum, long double max_w)
     : Quality(gr, "Profile Difference"), kappa(size), sum_sq(sum), max(max_w)
 {
     n2c.resize(size);
@@ -56,7 +56,7 @@ DP::~DP()
     w.clear();
 }
 
-long double DP::graph_weighting(Graph *g)
+long double DP::graph_weighting(GraphBin *g)
 {
     long double sum_sq = 0.0L;
 

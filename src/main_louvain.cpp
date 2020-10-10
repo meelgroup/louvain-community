@@ -192,7 +192,7 @@ void display_time(const char *str)
     cerr << str << ": " << ctime(&rawtime);
 }
 
-void init_quality(Graph *g, unsigned short nbc)
+void init_quality(GraphBin *g, unsigned short nbc)
 {
     if (nbc > 0)
         delete q;
@@ -268,7 +268,7 @@ int main(int argc, char **argv)
     if (verbose)
         display_time("Begin");
 
-    Graph g(filename, filename_w, type);
+    GraphBin g(filename, filename_w, type);
     init_quality(&g, nb_calls);
     nb_calls++;
 

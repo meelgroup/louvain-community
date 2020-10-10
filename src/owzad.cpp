@@ -34,7 +34,7 @@
 
 using namespace std;
 
-OwZad::OwZad(Graph& gr, long double al, long double max_w)
+OwZad::OwZad(GraphBin& gr, long double al, long double max_w)
     : Quality(gr, "Owsinski-Zadrozny (with alpha=" + to_string(al) + ")"), alpha(al), max(max_w)
 {
     n2c.resize(size);

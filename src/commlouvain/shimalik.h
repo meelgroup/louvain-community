@@ -45,7 +45,7 @@ class ShiMalik : public Quality
 
     int kmin;
 
-    ShiMalik(Graph& gr, int kappa_min);
+    ShiMalik(GraphBin& gr, int kappa_min);
     ~ShiMalik();
 
     inline void remove(int node, int comm, long double dnodecomm);

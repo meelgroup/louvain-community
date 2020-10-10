@@ -43,12 +43,12 @@ class CondorA : public Quality
     vector<long double> in; // used to compute the quality participation of each community
     long double sum_se;     // sum of the nb_selfloops of each vertex
 
-    CondorA(Graph &gr, long double sum);
+    CondorA(GraphBin &gr, long double sum);
     ~CondorA();
 
     // change the weight of each link ij in the graph, from Aij to 4Aij/(d(i)+d(j)) - Aii/2d(i) - Ajj/2d(j)
     // return the result of Sum [Aii/2d(i) + Ajj/2d(j) - 2Aij/(d(i)+d(j))]
-    static long double graph_weighting(Graph *g);
+    static long double graph_weighting(GraphBin *g);
 
     inline void remove(int node, int comm, long double dnodecomm);
 

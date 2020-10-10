@@ -45,7 +45,7 @@ class Goldberg : public Quality
 
     long double max; // biggest weight on links
 
-    Goldberg(Graph& gr, long double max_w);
+    Goldberg(GraphBin& gr, long double max_w);
     ~Goldberg();
 
     inline void remove(int node, int comm, long double dnodecomm);

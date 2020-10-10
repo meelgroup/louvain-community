@@ -34,7 +34,7 @@
 
 using namespace std;
 
-ShiMalik::ShiMalik(Graph& gr, int kappa_min)
+ShiMalik::ShiMalik(GraphBin& gr, int kappa_min)
     : Quality(gr, "Shi-Malik (with kmin=" + to_string(kappa_min) + ")"),
       kappa(size),
       kmin(kappa_min)

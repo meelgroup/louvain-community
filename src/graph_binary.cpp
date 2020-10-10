@@ -33,7 +33,7 @@
 #include "commlouvain/graph_binary.h"
 #include <fstream>
 
-Graph::Graph()
+GraphBin::GraphBin()
 {
     nb_nodes = 0;
     nb_links = 0ULL;
@@ -42,7 +42,7 @@ Graph::Graph()
     sum_nodes_w = 0;
 }
 
-Graph::Graph(char *filename, char *filename_w, int type)
+GraphBin::GraphBin(const char *filename, const char *filename_w, int type)
 {
     ifstream finput;
     finput.open(filename, fstream::in | fstream::binary);
@@ -96,7 +96,7 @@ Graph::Graph(char *filename, char *filename_w, int type)
     sum_nodes_w = nb_nodes;
 }
 
-long double Graph::max_weight()
+long double GraphBin::max_weight()
 {
     long double max = 1.0L;
 
@@ -106,7 +106,7 @@ long double Graph::max_weight()
     return max;
 }
 
-void Graph::assign_weight(int node, int weight)
+void GraphBin::assign_weight(int node, int weight)
 {
     sum_nodes_w -= nodes_w[node];
 
@@ -115,7 +115,7 @@ void Graph::assign_weight(int node, int weight)
     sum_nodes_w += weight;
 }
 
-void Graph::add_selfloops()
+void GraphBin::add_selfloops()
 {
     vector<unsigned long long> aux_deg;
     vector<int> aux_links;
@@ -147,7 +147,7 @@ void Graph::add_selfloops()
     nb_links += (unsigned long long)nb_nodes;
 }
 
-void Graph::display()
+void GraphBin::display()
 {
     for (int node = 0; node < nb_nodes; node++) {
         pair<vector<int>::iterator, vector<long double>::iterator> p = neighbors(node);
@@ -164,7 +164,7 @@ void Graph::display()
     }
 }
 
-void Graph::display_reverse()
+void GraphBin::display_reverse()
 {
     for (int node = 0; node < nb_nodes; node++) {
         pair<vector<int>::iterator, vector<long double>::iterator> p = neighbors(node);
@@ -179,7 +179,7 @@ void Graph::display_reverse()
     }
 }
 
-bool Graph::check_symmetry()
+bool GraphBin::check_symmetry()
 {
     int error = 0;
     for (int node = 0; node < nb_nodes; node++) {
@@ -204,7 +204,7 @@ bool Graph::check_symmetry()
     return (error == 0);
 }
 
-void Graph::display_binary(char *outfile)
+void GraphBin::display_binary(const char *outfile)
 {
     ofstream foutput;
     foutput.open(outfile, fstream::out | fstream::binary);

@@ -34,7 +34,7 @@
 
 using namespace std;
 
-DevInd::DevInd(Graph& gr) : Quality(gr, "Deviation to Indetermination")
+DevInd::DevInd(GraphBin& gr) : Quality(gr, "Deviation to Indetermination")
 {
     n2c.resize(size);
 

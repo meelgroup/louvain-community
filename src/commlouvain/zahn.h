@@ -45,7 +45,7 @@ class Zahn : public Quality
     vector<int> w;
     long double max; // biggest weight on links
 
-    Zahn(Graph& gr, long double max_w);
+    Zahn(GraphBin& gr, long double max_w);
     ~Zahn();
 
     inline void remove(int node, int comm, long double dnodecomm);

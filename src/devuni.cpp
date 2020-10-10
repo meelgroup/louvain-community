@@ -34,7 +34,7 @@
 
 using namespace std;
 
-DevUni::DevUni(Graph& gr) : Quality(gr, "Deviation to Uniformity")
+DevUni::DevUni(GraphBin& gr) : Quality(gr, "Deviation to Uniformity")
 {
     n2c.resize(size);
 

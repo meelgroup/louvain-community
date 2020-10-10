@@ -34,7 +34,7 @@
 
 using namespace std;
 
-Zahn::Zahn(Graph& gr, long double max_w) : Quality(gr, "Zahn-Condorcet"), max(max_w)
+Zahn::Zahn(GraphBin& gr, long double max_w) : Quality(gr, "Zahn-Condorcet"), max(max_w)
 {
     n2c.resize(size);
 

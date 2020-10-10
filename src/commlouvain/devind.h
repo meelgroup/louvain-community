@@ -43,7 +43,7 @@ class DevInd : public Quality
     vector<long double> in, tot; // used to compute the quality participation of each community
     vector<int> w;               // used to store size of communities
 
-    DevInd(Graph& gr);
+    DevInd(GraphBin& gr);
     ~DevInd();
 
     inline void remove(int node, int comm, long double dnodecomm);

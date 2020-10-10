@@ -42,7 +42,7 @@ class Modularity : public Quality
    public:
     vector<long double> in, tot; // used to compute the quality participation of each community
 
-    Modularity(Graph& gr);
+    Modularity(GraphBin& gr);
     ~Modularity();
 
     inline void remove(int node, int comm, long double dnodecomm);

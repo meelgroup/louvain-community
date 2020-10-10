@@ -46,7 +46,7 @@ class BalMod : public Quality
 
     long double max; // biggest weight on links
 
-    BalMod(Graph& gr, long double max_w);
+    BalMod(GraphBin& gr, long double max_w);
     ~BalMod();
 
     inline void remove(int node, int comm, long double dnodecomm);

@@ -44,7 +44,7 @@
 
 using namespace std;
 
-class Graph
+class GraphBin
 {
    public:
     int nb_nodes;
@@ -59,7 +59,7 @@ class Graph
 
     vector<int> nodes_w;
 
-    Graph();
+    GraphBin();
 
     // binary file format is
     // 4 bytes for the number of nodes in the graph
@@ -68,7 +68,7 @@ class Graph
     //    deg(k)=degrees[k]-degrees[k-1]
     // 4*(sum_degrees) bytes for the links
     // IF WEIGHTED, 10*(sum_degrees) bytes for the weights in a separate file
-    Graph(char *filename, char *filename_w, int type);
+    GraphBin(const char *filename, const char *filename_w, int type);
 
     // return the biggest weight of links in the graph
     long double max_weight();
@@ -81,7 +81,7 @@ class Graph
 
     void display(void);
     void display_reverse(void);
-    void display_binary(char *outfile);
+    void display_binary(const char *outfile);
     bool check_symmetry();
 
     // return the number of neighbors (degree) of the node
@@ -97,7 +97,7 @@ class Graph
     inline pair<vector<int>::iterator, vector<long double>::iterator> neighbors(int node);
 };
 
-inline int Graph::nb_neighbors(int node)
+inline int GraphBin::nb_neighbors(int node)
 {
     assert(node >= 0 && node < nb_nodes);
 
@@ -107,7 +107,7 @@ inline int Graph::nb_neighbors(int node)
         return (int)(degrees[node] - degrees[node - 1]);
 }
 
-inline long double Graph::nb_selfloops(int node)
+inline long double GraphBin::nb_selfloops(int node)
 {
     assert(node >= 0 && node < nb_nodes);
 
@@ -123,7 +123,7 @@ inline long double Graph::nb_selfloops(int node)
     return 0.0L;
 }
 
-inline long double Graph::weighted_degree(int node)
+inline long double GraphBin::weighted_degree(int node)
 {
     assert(node >= 0 && node < nb_nodes);
 
@@ -139,7 +139,7 @@ inline long double Graph::weighted_degree(int node)
     }
 }
 
-inline pair<vector<int>::iterator, vector<long double>::iterator> Graph::neighbors(int node)
+inline pair<vector<int>::iterator, vector<long double>::iterator> GraphBin::neighbors(int node)
 {
     assert(node >= 0 && node < nb_nodes);
 

@@ -48,7 +48,7 @@ class OwZad : public Quality
 
     long double max; // biggest weight on links
 
-    OwZad(Graph& gr, long double al, long double max_w);
+    OwZad(GraphBin& gr, long double al, long double max_w);
     ~OwZad();
 
     inline void remove(int node, int comm, long double dnodecomm);

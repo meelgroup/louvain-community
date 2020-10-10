@@ -34,7 +34,7 @@
 
 using namespace std;
 
-CondorA::CondorA(Graph &gr, long double sum) : Quality(gr, "A-weighted Condorcet"), sum_se(sum)
+CondorA::CondorA(GraphBin &gr, long double sum) : Quality(gr, "A-weighted Condorcet"), sum_se(sum)
 {
     n2c.resize(size);
 
@@ -52,7 +52,7 @@ CondorA::~CondorA()
     in.clear();
 }
 
-long double CondorA::graph_weighting(Graph *g)
+long double CondorA::graph_weighting(GraphBin *g)
 {
     long double sum_se = 0.0L;
 

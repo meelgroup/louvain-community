@@ -47,12 +47,12 @@ class DP : public Quality
     long double sum_sq; // used to store Sum Âij^2
     long double max;
 
-    DP(Graph &gr, long double sum, long double max_w);
+    DP(GraphBin &gr, long double sum, long double max_w);
     ~DP();
 
     // change the weight of each link ij in the graph, from Aij to 2Aij / (d(i)+d(j))
     // return the result of Sum Âij^2
-    static long double graph_weighting(Graph *g);
+    static long double graph_weighting(GraphBin *g);
 
     inline void remove(int node, int comm, long double dnodecomm);
 

@@ -49,12 +49,19 @@ class GraphPlain
    public:
     vector<vector<pair<int, long double> > > links;
 
-    GraphPlain(char *filename, int type);
+    GraphPlain();
+    GraphPlain(const char *filename, int type);
 
+    void add_edge(uint32_t src, uint32_t dst, long double weight = 1.0L);
     void clean(int type);
     void renumber(int type, char *filename);
     void display(int type);
-    void display_binary(char *filename, char *filename_w, int type);
+    void display_binary(const char *filename, const char *filename_w, int type);
+    void binary_to_mem(
+        vector<uint64_t>& out_deg_seq,
+        vector<int>& out_links,
+        vector<long double>& out_w,
+        int type);
 };
 
 #endif // LOUVAIN_GRAPHPLAIN

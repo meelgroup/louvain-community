@@ -42,12 +42,12 @@ using namespace std;
 class Quality
 {
    public:
-    Graph& g; // network to compute communities for
+    GraphBin& g; // network to compute communities for
     int size; // nummber of nodes in the network and size of all vectors
     string name;
 
     vector<int> n2c; // community to which each node belongs
-    Quality(Graph& gr, const std::string& n) : g(gr), size(g.nb_nodes), name(n)
+    Quality(GraphBin& gr, const std::string& n) : g(gr), size(g.nb_nodes), name(n)
     {
     }
 
