@@ -1,0 +1,17 @@
+# Config file for the @EXPORT_TYPE@ cryptominisat Package
+# It defines the following variables
+#  LOUVAIN_COMMUNITIES_INCLUDE_DIRS - include directories for comm_louvain
+#  LOUVAIN_COMMUNITIES_LIBRARIES    - libraries to link against
+#  LOUVAIN_COMMUNITIES_EXECUTABLE   - the community-louvain executable
+
+# Compute paths
+get_filename_component(LOUVAIN_COMMUNITIES_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+set(LOUVAIN_COMMUNITIES_INCLUDE_DIRS "@CONF_INCLUDE_DIRS@")
+
+# Our library dependencies (contains definitions for IMPORTED targets)
+include("${LOUVAIN_COMMUNITIES_CMAKE_DIR}/@LOUVAIN_COMMUNITIES_TARGETS_FILENAME@")
+
+# These are IMPORTED targets created by @LOUVAIN_COMMUNITIES_TARGETS_FILENAME@
+set(LOUVAIN_COMMUNITIES_VERSION_MAJOR @PROJECT_VERSION_MAJOR@)
+set(LOUVAIN_COMMUNITIES_VERSION_MINOR @PROJECT_VERSION_MINOR@)
+set(LOUVAIN_COMMUNITIES_LIBRARIES louvain_communities)

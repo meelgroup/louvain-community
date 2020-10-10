@@ -46,7 +46,7 @@ endif()
 # -----------------------------------------------------------------------------
 # Provide scripts dir for included cmakes to use
 # -----------------------------------------------------------------------------
-set(COMMLOUVAIN_SCRIPTS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/scripts)
+set(LOUVAIN_COMMUNITIES_SCRIPTS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/scripts)
 
 include (GenerateExportHeader)
 include (GNUInstallDirs)
@@ -86,7 +86,7 @@ foreach (build_config ${build_types})
     endforeach()
 endforeach()
 
-PROJECT(commlouvain)
+PROJECT(louvain_communities)
 
 # contains some library search cmake scripts
 SET(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
@@ -315,7 +315,7 @@ if ((${CMAKE_SYSTEM_NAME} MATCHES "Linux") OR (${CMAKE_SYSTEM_NAME} MATCHES "Dar
 endif()
 
 if(NOT MSVC)
-  set(DEF_INSTALL_CMAKE_DIR lib/cmake/commlouvain)
+  set(DEF_INSTALL_CMAKE_DIR lib/cmake/louvain_communities)
 endif()
 
 # -----------------------------------------------------------------------------
@@ -338,10 +338,10 @@ if (GIT_EXECUTABLE)
 else()
   set(GIT_SHA "GIT-hash-notfound")
 endif()
-set(COMMLOUVAIN_FULL_VERSION "1.0.0")
+set(LOUVAIN_COMMUNITIES_FULL_VERSION "1.0.0")
 
-string(REPLACE "." ";" COMMLOUVAIN_FULL_VERSION_LIST ${COMMLOUVAIN_FULL_VERSION})
-SetVersionNumber("PROJECT" ${COMMLOUVAIN_FULL_VERSION_LIST})
+string(REPLACE "." ";" LOUVAIN_COMMUNITIES_FULL_VERSION_LIST ${LOUVAIN_COMMUNITIES_FULL_VERSION})
+SetVersionNumber("PROJECT" ${LOUVAIN_COMMUNITIES_FULL_VERSION_LIST})
 MESSAGE(STATUS "PROJECT_VERSION: ${PROJECT_VERSION}")
 MESSAGE(STATUS "PROJECT_VERSION_MAJOR: ${PROJECT_VERSION_MAJOR}")
 MESSAGE(STATUS "PROJECT_VERSION_MINOR: ${PROJECT_VERSION_MINOR}")
@@ -359,7 +359,7 @@ message(STATUS "All defines at startup: ${COMPILE_DEFINES}")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lib)
 
-macro(commlouvain_add_public_header LIBTARGET HEADER)
+macro(louvain_communities_add_public_header LIBTARGET HEADER)
     get_target_property(EXISTING_PUBLIC_HEADERS ${LIBTARGET} PUBLIC_HEADER)
     if(EXISTING_PUBLIC_HEADERS)
         list(APPEND EXISTING_PUBLIC_HEADERS "${HEADER}")
@@ -378,9 +378,9 @@ endmacro()
 # -----------------------------------------------------------------------------
 # Provide an export name to be used by targets that wish to export themselves.
 # -----------------------------------------------------------------------------
-set(COMMLOUVAIN_EXPORT_NAME "commlouvainTargets")
+set(LOUVAIN_COMMUNITIES_EXPORT_NAME "louvain_communitiesTargets")
 
-add_subdirectory(src src-commlouvain)
+add_subdirectory(src src-louvain_communities)
 
 # -----------------------------------------------------------------------------
 # Add uninstall target for makefiles
@@ -412,47 +412,47 @@ endif()
 
 # -----------------------------------------------------------------------------
 # Export our targets so that other CMake based projects can interface with
-# the build of commlouvain in the build-tree
+# the build of louvain_communities in the build-tree
 # -----------------------------------------------------------------------------
-set(COMMLOUVAIN_TARGETS_FILENAME "commlouvainTargets.cmake")
-set(COMMLOUVAIN_CONFIG_FILENAME "commlouvainConfig.cmake")
+set(LOUVAIN_COMMUNITIES_TARGETS_FILENAME "louvain_communitiesTargets.cmake")
+set(LOUVAIN_COMMUNITIES_CONFIG_FILENAME "louvain_communitiesConfig.cmake")
 
 # Export targets
-set(MY_TARGETS commlouvain)
+set(MY_TARGETS louvain_communities)
 export(
     TARGETS ${MY_TARGETS}
-    FILE "${CMAKE_CURRENT_BINARY_DIR}/${COMMLOUVAIN_TARGETS_FILENAME}"
+    FILE "${CMAKE_CURRENT_BINARY_DIR}/${LOUVAIN_COMMUNITIES_TARGETS_FILENAME}"
 )
 
-# Create commlouvainConfig file
+# Create louvain_communitiesConfig file
 set(EXPORT_TYPE "Build-tree")
 set(CONF_INCLUDE_DIRS "${CMAKE_CURRENT_BINARY_DIR}/include")
-configure_file(commlouvainConfig.cmake.in
-    "${CMAKE_CURRENT_BINARY_DIR}/${COMMLOUVAIN_CONFIG_FILENAME}" @ONLY
+configure_file(louvain_communitiesConfig.cmake.in
+    "${CMAKE_CURRENT_BINARY_DIR}/${LOUVAIN_COMMUNITIES_CONFIG_FILENAME}" @ONLY
 )
 
 # Export this package to the CMake user package registry
-# Now the user can just use find_package(commlouvain) on their system
-export(PACKAGE commlouvain)
+# Now the user can just use find_package(louvain_communities) on their system
+export(PACKAGE louvain_communities)
 
-set(DEF_INSTALL_CMAKE_DIR lib/cmake/commlouvain)
-set(COMMLOUVAIN_INSTALL_CMAKE_DIR ${DEF_INSTALL_CMAKE_DIR} CACHE PATH
-    "Installation directory for comml CMake files")
+set(DEF_INSTALL_CMAKE_DIR lib/cmake/louvain_communities)
+set(LOUVAIN_COMMUNITIES_INSTALL_CMAKE_DIR ${DEF_INSTALL_CMAKE_DIR} CACHE PATH
+    "Installation directory for louvain_communities CMake files")
 
-# Create commlouvainConfig file
+# Create louvain_communitiesConfig file
 set(EXPORT_TYPE "installed")
 set(CONF_INCLUDE_DIRS "${CMAKE_INSTALL_PREFIX}/include")
-configure_file(commlouvainConfig.cmake.in
-   "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/${COMMLOUVAIN_CONFIG_FILENAME}" @ONLY
+configure_file(louvain_communitiesConfig.cmake.in
+   "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/${LOUVAIN_COMMUNITIES_CONFIG_FILENAME}" @ONLY
 )
 
 install(FILES
-    "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/${COMMLOUVAIN_CONFIG_FILENAME}"
-    DESTINATION "${COMMLOUVAIN_INSTALL_CMAKE_DIR}"
+    "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/${LOUVAIN_COMMUNITIES_CONFIG_FILENAME}"
+    DESTINATION "${LOUVAIN_COMMUNITIES_INSTALL_CMAKE_DIR}"
 )
 
 # Install the export set for use with the install-tree
 install(
-    EXPORT ${COMMLOUVAIN_EXPORT_NAME}
-    DESTINATION "${COMMLOUVAIN_INSTALL_CMAKE_DIR}"
+    EXPORT ${LOUVAIN_COMMUNITIES_EXPORT_NAME}
+    DESTINATION "${LOUVAIN_COMMUNITIES_INSTALL_CMAKE_DIR}"
 )
