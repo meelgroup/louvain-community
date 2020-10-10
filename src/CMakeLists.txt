@@ -48,7 +48,7 @@ add_library(commlouvain
     dp.cpp
     goldberg.cpp
     graph_binary.cpp
-    graph.cpp
+    graph_plain.cpp
     louvain.cpp
     modularity.cpp
     owzad.cpp
@@ -157,7 +157,7 @@ install(FILES
     commlouvain/GitSHA1.h
     commlouvain/goldberg.h
     commlouvain/graph_binary.h
-    commlouvain/graph.h
+    commlouvain/graph_plain.h
     commlouvain/louvain.h
     commlouvain/modularity.h
     commlouvain/owzad.h

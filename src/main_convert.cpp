@@ -30,7 +30,7 @@
 //-----------------------------------------------------------------------------
 // see README.txt for more details
 
-#include "commlouvain/graph.h"
+#include "commlouvain/graph_plain.h"
 
 using namespace std;
 

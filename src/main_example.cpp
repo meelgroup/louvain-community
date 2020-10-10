@@ -32,7 +32,7 @@
 
 #include <unistd.h>
 #include "commlouvain/graph_binary.h"
-#include "commlouvain/graph.h"
+#include "commlouvain/graph_plain.h"
 #include "commlouvain/louvain.h"
 
 #include "commlouvain/balmod.h"
