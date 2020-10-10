@@ -87,17 +87,17 @@ int main(int /*argc*/, char ** /*argv*/)
 
     unsigned short nb_calls = 0;
 
-    GraphPlain gplain("graph.txt", WEIGHTED);
-//     GraphPlain gplain;
-//     gplain.add_edge(1, 2, 0.4L);
-//     gplain.add_edge(1, 2, 0.8L);
-//     gplain.clean(WEIGHTED);
+//     GraphPlain gplain("graph.txt", WEIGHTED);
+    GraphPlain gplain;
+    #include "mygraph.cpp"
+    gplain.clean(WEIGHTED);
     //gplain.display_binary("graph.bin", "graph.weights", WEIGHTED);
-    vector<uint64_t> deg_seq;
+    vector<unsigned long long> deg_seq;
     vector<int> out_links;
     vector<long double> out_w;
     gplain.binary_to_mem(deg_seq, out_links, out_w, WEIGHTED);
-    GraphBin g("graph.bin", "graph.weights", WEIGHTED);
+    //GraphBin g("graph.bin", "graph.weights", WEIGHTED);
+    GraphBin g(deg_seq, out_links, out_w, WEIGHTED);
     q = new Modularity(g);
     nb_calls++;
 

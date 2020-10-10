@@ -60,6 +60,11 @@ class GraphBin
     vector<int> nodes_w;
 
     GraphBin();
+    GraphBin(
+        vector<unsigned long long>& out_deg_seq,
+        vector<int>& out_links,
+        vector<long double>& out_w,
+        int type);
 
     // binary file format is
     // 4 bytes for the number of nodes in the graph

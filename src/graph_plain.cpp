@@ -157,7 +157,7 @@ void GraphPlain::display(int type)
 }
 
 void GraphPlain::binary_to_mem(
-    vector<uint64_t>& out_deg_seq,
+    vector<unsigned long long>& out_deg_seq,
     vector<int>& out_links,
     vector<long double>& out_w,
     int type)

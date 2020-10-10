@@ -58,7 +58,7 @@ class GraphPlain
     void display(int type);
     void display_binary(const char *filename, const char *filename_w, int type);
     void binary_to_mem(
-        vector<uint64_t>& out_deg_seq,
+        vector<unsigned long long>& out_deg_seq,
         vector<int>& out_links,
         vector<long double>& out_w,
         int type);

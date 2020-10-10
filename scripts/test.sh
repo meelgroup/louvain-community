@@ -3,13 +3,15 @@ set -e
 #set -x
 
 rm -f graph.txt graph.weights graph.bin
-rm -f level2 level3 level4 level5 part
+rm -f level2 level3 level4 level5 part ../src/mygraph.cpp
 
 ./mytest.py $1
+awk '{print "gplain.add_edge(" $1 ", " $2 ", " $3 "L);"}' graph.txt > ../src/mygraph.cpp
 ./comml-convert -i graph.txt -o graph.bin -w graph.weights
 # OLD ./comml-louvain  graph.bin -w graph.weights -l -1 -e 0.001 -v > graph.tree
 ./comml-louvain  graph.bin -w graph.weights -l -1 -v > graph.tree
 rm graph.bin graph.weights
+make
 ./example > final_level_example 2> out2
 cat out2
 lastlevel=`grep level out2 | tail -n 1  | awk '{print $2}' | sed "s/://"`

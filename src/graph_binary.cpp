@@ -42,6 +42,44 @@ GraphBin::GraphBin()
     sum_nodes_w = 0;
 }
 
+
+GraphBin::GraphBin(
+    vector<unsigned long long>& out_deg_seq,
+    vector<int>& out_links,
+    vector<long double>& out_w,
+    int type)
+{
+
+    // Read number of nodes on 4 bytes
+    nb_nodes = out_deg_seq.size();
+
+    // Read cumulative degree sequence: 8 bytes for each node
+    // cum_degree[0]=degree(0); cum_degree[1]=degree(0)+degree(1), etc.
+    degrees = out_deg_seq;
+
+    // Read links: 4 bytes for each link (each link is counted twice)
+    nb_links = degrees[nb_nodes - 1];
+    links.resize(nb_links);
+    links = out_links;
+
+    // IF WEIGHTED, read weights: 10 bytes for each link (each link is counted twice)
+    weights.resize(0);
+    total_weight = 0.0L;
+    if (type == WEIGHTED) {
+
+        weights.resize(nb_links);
+        assert(out_w.size() == nb_links);
+        weights = out_w;
+    }
+
+    // Compute total weight
+    for (int i = 0; i < nb_nodes; i++)
+        total_weight += (long double)weighted_degree(i);
+
+    nodes_w.assign(nb_nodes, 1);
+    sum_nodes_w = nb_nodes;
+}
+
 GraphBin::GraphBin(const char *filename, const char *filename_w, int type)
 {
     ifstream finput;
