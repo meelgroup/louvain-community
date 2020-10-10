@@ -35,20 +35,105 @@ THE SOFTWARE.
 #include "commlouvain/modularity.h"
 #include "commlouvain/owzad.h"
 #include "commlouvain/shimalik.h"
+#include "commlouvain/zahn.h"
 #include "GitSHA1.h"
 
 namespace LouvainC {
 
 struct PrivateData {
+    ~PrivateData()
+    {
+        delete q;
+    }
     GraphPlain gplain;
     unsigned short nb_calls = 0;
     long double precision = 0.000001L;
     uint32_t verbosity = 0;
+    vector<vector<int>> levels;
+
+    //quality measure
+    Quality *q = NULL;
+    int id_qual = 0;
+    long double max_w = 1.0L;
+    long double alpha = 0.5L;
+    int kmin = 1;
+    long double sum_se = 0.0L;
+    long double sum_sq = 0.0L;
 };
 
 DLL_PUBLIC Communities::Communities()
 {
     data = new PrivateData;
+}
+
+DLL_PUBLIC Communities::~Communities()
+{
+    delete data;
+}
+
+DLL_PUBLIC void Communities::set_quality_type(unsigned id)
+{
+    data->id_qual = id;
+}
+
+void init_quality(PrivateData* data, GraphBin* g)
+{
+    delete data->q;
+    switch (data->id_qual) {
+        case 0:
+            data->q = new Modularity(*g);
+            break;
+        case 1:
+            if (data->nb_calls == 0)
+                data->max_w = g->max_weight();
+            data->q = new Zahn(*g, data->max_w);
+            break;
+        case 2:
+            if (data->nb_calls == 0)
+                data->max_w = g->max_weight();
+            if (data->alpha <= 0.0L || data->alpha >= 1.0L)
+                data->alpha = 0.5L;
+            data->q = new OwZad(*g, data->alpha, data->max_w);
+            break;
+        case 3:
+            if (data->nb_calls == 0)
+                data->max_w = g->max_weight();
+            data->q = new Goldberg(*g, data->max_w);
+            break;
+        case 4:
+            if (data->nb_calls == 0) {
+                g->add_selfloops();
+                data->sum_se = CondorA::graph_weighting(g);
+            }
+            data->q = new CondorA(*g, data->sum_se);
+            break;
+        case 5:
+            data->q = new DevInd(*g);
+            break;
+        case 6:
+            data->q = new DevUni(*g);
+            break;
+        case 7:
+            if (data->nb_calls == 0) {
+                data->max_w = g->max_weight();
+                data->sum_sq = DP::graph_weighting(g);
+            }
+            data->q = new DP(*g, data->sum_sq, data->max_w);
+            break;
+        case 8:
+            if (data->kmin < 1)
+                data->kmin = 1;
+            data->q = new ShiMalik(*g, data->kmin);
+            break;
+        case 9:
+            if (data->nb_calls == 0)
+                data->max_w = g->max_weight();
+            data->q = new BalMod(*g, data->max_w);
+            break;
+        default:
+            data->q = new Modularity(*g);
+            break;
+    }
 }
 
 DLL_PUBLIC void Communities::calculate(bool weighted)
@@ -58,11 +143,14 @@ DLL_PUBLIC void Communities::calculate(bool weighted)
     vector<long double> out_w;
     data->gplain.binary_to_mem(deg_seq, out_links, out_w, WEIGHTED);
     GraphBin g(deg_seq, out_links, out_w, WEIGHTED);
-    Quality *q = new Modularity(g);
+    init_quality(data, &g);
     data->nb_calls++;
 
-    cerr << "Computation of communities with the " << q->name << " quality function" << endl;
-    Louvain c(-1, data->precision, q);
+    if (data->verbosity) {
+        cout << "Computation of communities with the " << data->q->name
+        << " quality function" << endl;
+    }
+    Louvain c(-1, data->precision, data->q);
 
     bool improvement = true;
 
@@ -70,7 +158,6 @@ DLL_PUBLIC void Communities::calculate(bool weighted)
     long double new_qual;
 
     int level = 0;
-    vector<vector<int> > levels;
 
     do {
         if (data->verbosity) {
@@ -82,15 +169,14 @@ DLL_PUBLIC void Communities::calculate(bool weighted)
         improvement = c.one_level();
         new_qual = (c.qual)->quality();
 
-        levels.push_back(vector<int>());
-        c.display_partition(&(levels[level]));
+        data->levels.push_back(vector<int>());
+        c.display_partition(&(data->levels[level]));
 
         g = c.partition2graph_binary();
-        delete q;
-        q = new Modularity(g);
+        init_quality(data, &g);
         data->nb_calls++;
 
-        c = Louvain(-1, data->precision, q);
+        c = Louvain(-1, data->precision, data->q);
 
         if (data->verbosity) {
             cout << "  quality increased from " << quality << " to " << new_qual << endl;
@@ -103,23 +189,45 @@ DLL_PUBLIC void Communities::calculate(bool weighted)
     if (data->verbosity) {
         cout << "Quality: " << new_qual << endl;
     }
-    //print_final(levels);
 }
 
-DLL_PUBLIC std::vector<std::pair<unsigned int, unsigned int> > Communities::get_mapping()
+
+DLL_PUBLIC void Communities::set_precision(long double precision)
 {
-    std::vector<std::pair<unsigned int, unsigned int> > ret;
+    data->precision = precision;
+}
+
+DLL_PUBLIC std::vector<std::pair<unsigned int, int> > Communities::get_mapping()
+{
+    std::vector<std::pair<unsigned int, int> > ret;
+    vector<int> n2c(data->levels[0].size());
+
+    for (unsigned int i = 0; i < data->levels[0].size(); i++)
+        n2c[i] = i;
+
+    for (unsigned l = 0; l < data->levels.size(); l++) {
+        for (unsigned int node = 0; node < data->levels[0].size(); node++) {
+            n2c[node] = data->levels[l][n2c[node]];
+        }
+    }
+
+    for (unsigned int node = 0; node < data->levels[0].size(); node++) {
+        ret.push_back(std::make_pair(node, n2c[node]));
+    }
 
     return ret;
 }
 
 
-DLL_PUBLIC const char* get_version()
+DLL_PUBLIC const char* Communities::get_version()
 {
     return get_version_sha1();
 }
 
-
+DLL_PUBLIC void LouvainC::Communities::set_verbosity(unsigned int verb)
+{
+    data->verbosity = verb;
+}
 
 
 }

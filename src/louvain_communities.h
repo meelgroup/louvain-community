@@ -21,7 +21,7 @@ THE SOFTWARE.
 ***********************************************/
 
 #ifndef LOUVAIN_COMMUNITIES_H__
-#define LOUVAIN_COMMUNITIES__
+#define LOUVAIN_COMMUNITIES_H__
 
 #if defined _WIN32
     #define DLL_PUBLIC __declspec(dllexport)
@@ -43,10 +43,26 @@ namespace LouvainC {
     {
     public:
         Communities();
+        ~Communities();
+//             The quality function used to compute partition of the graph (modularity is chosen by default)
+//             id = 0\t -> the classical Newman-Girvan criterion (also called "Modularity"
+//             id = 1\t -> the Zahn-Condorcet criterion
+//             id = 2\t -> the Owsinski-Zadrozny criterion (you should specify
+//                              the value of the parameter with option -c)
+//             id = 3\t -> the Goldberg Density criterion
+//             id = 4\t -> the A-weighted Condorcet criterion
+//             id = 5\t -> the Deviation to Indetermination criterion
+//             id = 6\t -> the Deviation to Uniformity criterion
+//             id = 7\t -> the Profile Difference criterion
+//             id = 8\t -> the Shi-Malik criterion (you should specify the value of kappa_min with option -k)
+//             id = 9\t -> the Balanced Modularity criterion
+        void set_quality_type(unsigned id = 0);
         void add_edge(unsigned src, unsigned dst, double weight = 1.0);
         void calculate(bool weighted = false);
         const char* get_version();
-        std::vector<std::pair<unsigned, unsigned>> get_mapping();
+        void set_verbosity(unsigned verb);
+        void set_precision(long double precision);
+        std::vector<std::pair<unsigned int, int>> get_mapping();
     };
 
     PrivateData* data;
