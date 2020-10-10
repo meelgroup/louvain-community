@@ -96,6 +96,36 @@ DLL_PUBLIC void Communities::add_edge(unsigned int src, unsigned int dst, long d
     data->gplain.add_edge(src, dst, weight);
 }
 
+DLL_PUBLIC void Communities::set_sum_se(long double sum_se)
+{
+    assert(data->id_qual == 4);
+    data->sum_se = sum_se;
+}
+
+DLL_PUBLIC void Communities::set_kmin(int kmin)
+{
+    assert(data->id_qual == 8);
+    data->kmin = kmin;
+}
+
+DLL_PUBLIC void Communities::set_max_w(long double max_w)
+{
+    assert(
+        data->id_qual == 1 ||
+        data->id_qual == 2 ||
+        data->id_qual == 3 ||
+        data->id_qual == 7 ||
+        data->id_qual == 9
+    );
+    data->max_w = max_w;
+}
+
+DLL_PUBLIC void Communities::set_alpha(long double alpha)
+{
+    assert(data->id_qual == 2);
+    data->alpha = alpha;
+}
+
 
 void init_quality(PrivateData* data, GraphBin* g)
 {

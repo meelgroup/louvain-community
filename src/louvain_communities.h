@@ -44,8 +44,9 @@ namespace LouvainC {
     public:
         Communities();
         ~Communities();
+//             DEFAULT IS MODULARITY
 //             The quality function used to compute partition of the graph (modularity is chosen by default)
-//             id = 0\t -> the classical Newman-Girvan criterion (also called "Modularity"
+//             id = 0\t -> the classical Newman-Girvan criterion (also called "Modularity")
 //             id = 1\t -> the Zahn-Condorcet criterion
 //             id = 2\t -> the Owsinski-Zadrozny criterion (you should specify
 //                              the value of the parameter with option -c)
@@ -57,6 +58,19 @@ namespace LouvainC {
 //             id = 8\t -> the Shi-Malik criterion (you should specify the value of kappa_min with option -k)
 //             id = 9\t -> the Balanced Modularity criterion
         void set_quality_type(unsigned id = 0);
+
+        //ONLY makes sense for id = 4
+        void set_sum_se(long double sum_se = 0.0L);
+
+        //ONLY makes sense for id = 2
+        void set_alpha(long double alpha = 0.5L);
+
+        //ONLY makes sense for id = 1, 2, 3, 7, and 9
+        void set_max_w(long double max_w = 1.0L);
+
+        //ONLY makes sense for id = 8
+        void set_kmin(int kmin = 1);
+
         void set_random_seed(unsigned seed = 0);
         void add_edge(unsigned src, unsigned dst, long double weight = 1.0L);
         void calculate(bool weighted = false);
