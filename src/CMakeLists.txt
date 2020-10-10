@@ -18,9 +18,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-include_directories(
-    ${PROJECT_SOURCE_DIR}
-)
+include_directories( ${PROJECT_SOURCE_DIR} )
+include_directories( ${CMAKE_CURRENT_BINARY_DIR} )
+include_directories( ${CMAKE_CURRENT_SOURCE_DIR} )
 
 if (NOT WIN32)
     add_cxx_flag_if_supported("-Wno-bitfield-constant-conversion")
@@ -39,6 +39,7 @@ if (NOT WIN32)
 endif()
 
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/GitSHA1.cpp.in" "${CMAKE_CURRENT_BINARY_DIR}/GitSHA1.cpp" @ONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/louvain_communities.h.in" "${CMAKE_CURRENT_BINARY_DIR}/louvain_communities/louvain_communities.h" @ONLY)
 
 add_library(commlouvain
     balmod.cpp
@@ -57,6 +58,26 @@ add_library(commlouvain
     zahn.cpp
     ${CMAKE_CURRENT_BINARY_DIR}/GitSHA1.cpp
 )
+
+add_library(louvain_communities
+    balmod.cpp
+    condora.cpp
+    devind.cpp
+    devuni.cpp
+    dp.cpp
+    goldberg.cpp
+    graph_binary.cpp
+    graph_plain.cpp
+    louvain.cpp
+    modularity.cpp
+    owzad.cpp
+    quality.cpp
+    shimalik.cpp
+    zahn.cpp
+    ${CMAKE_CURRENT_BINARY_DIR}/GitSHA1.cpp
+    louvain_communities.cpp
+)
+
 
 ####################
 ### BINARIES
@@ -120,48 +141,36 @@ set_target_properties(example PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}
     INSTALL_RPATH_USE_LINK_PATH TRUE)
 
+commlouvain_add_public_header(
+    louvain_communities ${CMAKE_CURRENT_BINARY_DIR}/louvain_communities/louvain_communities.h )
 
-####################
-### INSTALL
-install(TARGETS comml-matrix
+# -----------------------------------------------------------------------------
+# Copy public headers into build directory include directory.
+# The cryptominisat5Config.cmake we generate in the build directory depends on
+# this.
+# -----------------------------------------------------------------------------
+set(HEADER_DEST "${PROJECT_BINARY_DIR}/include/louvain_communities")
+add_custom_target(CopyPublicHeaders ALL)
+get_target_property(louvain_communities_public_headers louvain_communities PUBLIC_HEADER)
+foreach(public_header ${louvain_communities_public_headers})
+    get_filename_component(HEADER_NAME ${public_header} NAME)
+    add_custom_command(TARGET CopyPublicHeaders PRE_BUILD
+                       COMMAND ${CMAKE_COMMAND} -E make_directory
+                               "${HEADER_DEST}"
+                       COMMAND ${CMAKE_COMMAND} -E echo
+                       "Copying ${HEADER_NAME} to ${HEADER_DEST}"
+                       COMMAND ${CMAKE_COMMAND} -E
+                           copy_if_different
+                           ${public_header}
+                           "${HEADER_DEST}"
+                      )
+endforeach()
+
+
+install(TARGETS louvain_communities
     EXPORT ${COMMLOUVAIN_EXPORT_NAME}
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+    ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+    RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+    PUBLIC_HEADER DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/louvain_communities"
 )
-
-install(TARGETS comml-convert
-    EXPORT ${COMMLOUVAIN_EXPORT_NAME}
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-)
-
-install(TARGETS comml-hierarchy
-    EXPORT ${COMMLOUVAIN_EXPORT_NAME}
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-)
-
-install(TARGETS comml-louvain
-    EXPORT ${COMMLOUVAIN_EXPORT_NAME}
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-)
-
-install(TARGETS commlouvain
-    EXPORT ${COMMLOUVAIN_EXPORT_NAME}
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-)
-
-install(FILES
-    commlouvain/balmod.h
-    commlouvain/condora.h
-    commlouvain/devind.h
-    commlouvain/devuni.h
-    commlouvain/dp.h
-    commlouvain/GitSHA1.h
-    commlouvain/goldberg.h
-    commlouvain/graph_binary.h
-    commlouvain/graph_plain.h
-    commlouvain/louvain.h
-    commlouvain/modularity.h
-    commlouvain/owzad.h
-    commlouvain/quality.h
-    commlouvain/shimalik.h
-    commlouvain/zahn.h
- DESTINATION include/commlouvain)

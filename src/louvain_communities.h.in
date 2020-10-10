@@ -1,5 +1,5 @@
 /******************************************
-Copyright (c) 2017, Mate Soos
+Copyright (C) 2009-2020 Authors of CryptoMiniSat, see AUTHORS file
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -20,28 +20,36 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ***********************************************/
 
-#include "src/GitSHA1.h"
-const char* get_version_sha1()
-{
-    static const char myversion_sha1[] = "@GIT_SHA1@";
-    return myversion_sha1;
+#ifndef LOUVAIN_COMMUNITIES_H__
+#define LOUVAIN_COMMUNITIES__
+
+#if defined _WIN32
+    #define DLL_PUBLIC __declspec(dllexport)
+#else
+    #define DLL_PUBLIC __attribute__ ((visibility ("default")))
+    #define DLL_LOCAL  __attribute__ ((visibility ("hidden")))
+#endif
+
+#include <vector>
+#include <utility>
+
+namespace LouvainC {
+    struct PrivateData;
+    #ifdef _WIN32
+    class __declspec(dllexport) Communities
+    #else
+    class Communities
+    #endif
+    {
+    public:
+        Communities();
+        void add_edge(unsigned src, unsigned dst, double weight = 1.0);
+        void calculate(bool weighted = false);
+        const char* get_version();
+        std::vector<std::pair<unsigned, unsigned>> get_mapping();
+    };
+
+    PrivateData* data;
 }
 
-const char* get_version_tag()
-{
-    static const char myversion_tag[] = "@PROJECT_VERSION@";
-    return myversion_tag;
-}
-
-const char* get_compilation_env()
-{
-    static const char compilation_env[] =
-        "CMAKE_CXX_COMPILER = @CMAKE_CXX_COMPILER@ | "
-        "CMAKE_CXX_FLAGS = @CMAKE_CXX_FLAGS@ | "
-        "COMPILE_DEFINES = @COMPILE_DEFINES@ | "
-        "STATICCOMPILE = @STATICCOMPILE@ | "
-        "ENABLE_ASSERTIONS = @ENABLE_ASSERTIONS@ | "
-        "MY_TARGETS = @MY_TARGETS@ | "
-        "compilation date time = " __DATE__ " " __TIME__ "";
-    return compilation_env;
-}
+#endif
