@@ -75,7 +75,7 @@ endif()
 
 # Testing
 
-To test, you need a CNF file in DIMACS format, for example
+To test:
 
 ```
 pip install python-louvain
