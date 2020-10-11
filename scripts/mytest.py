@@ -154,7 +154,13 @@ G = convert_cnf_to_vig_graph(maxvar, cls)
 print_graph(G)
 partition = compute_best_part(G)
 dump_partition(partition)
-#draw_graph(G, partition)
+
+if len(sys.argv) >= 2:
+    if sys.argv[2] == "--draw":
+        draw_graph(G, partition)
+    else:
+        print("ERROR: did not understand parameter: ", sys.argv[2])
+        exit(-1)
 exit(0)
 
 #G = generate_graph()
