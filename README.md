@@ -73,6 +73,17 @@ endif()
 
 ```
 
+To compile a static library simply do:
+
+```
+git clone https://github.com/meelgroup/louvain-community
+cd louvain-community
+mkdir build && cd build
+cmake -DSTATICCOMPILE=ON ..
+make -j4
+sudo make install
+```
+
 # Testing
 
 To test:
