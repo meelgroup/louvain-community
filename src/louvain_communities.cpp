@@ -189,6 +189,7 @@ void init_quality(PrivateData* data, GraphBin* g)
 
 DLL_PUBLIC void Communities::calculate(bool weighted)
 {
+    data->gplain.clean(weighted ? WEIGHTED : UNWEIGHTED);
     vector<unsigned long long> deg_seq;
     vector<int> out_links;
     vector<long double> out_w;
