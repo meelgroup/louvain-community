@@ -92,7 +92,7 @@ make -j4
 ./test.sh 50-10-9-q.cnf.gz.no_w.cnf
 ```
 
-To check how the python layout works in a visual way:
+To check how well the communities fit a graph generated via VIG ("Variable Incidence Graph") graph-generation from a DIMACS CNF and a layout engine using the spring method:
 
 ```
 pip install python-louvain
