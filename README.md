@@ -1,12 +1,12 @@
 # Multi-criteria community detection library
 
-This library makes the Louvain community detection system significantly easier to use as a library. Example code to use:
+This library makes the Louvain community detection system significantly easier to use. Example code:
 
 ```
 #include "louvain_communities/louvain_communities.h"
 #include <iostream>
 
-int main(int /*argc*/, char ** /*argv*/)
+int main(int /*argc*/, char** /*argv*/)
 {
     LouvainC::Communities graph;
 
@@ -55,7 +55,7 @@ make -j4
 sudo make install
 ```
 
-In case you are going to use the system in another `cmake` based project, you don't even need to install. In these cases, you can look for the library in your `CMakeLists.txt` file by:
+In case you are going to use the system in another `cmake` based project, you don't even need to install. In these cases, you can look for the library in your `CMakeLists.txt` file via:
 
 ```
 find_package(louvain_communities CONFIG)
@@ -74,15 +74,33 @@ endif()
 To test, you need a CNF file in DIMACS format, for example
 
 ```
+pip install python-louvain
+
+git clone https://github.com/jlguillaume/louvain
+cd louvain
+make -j4
+
 git clone https://github.com/meelgroup/louvain-community
 cd louvain-community
 mkdir build && cd build
 ln -s ../scritps/* .
+ln -s ../../louvain/louvain .
 ./mytest.py 50-10-9-q.cnf.gz.no_w.cnf
 awk '{print "gplain.add_edge(" $1 ", " $2 ", " $3 "L);"}' graph.txt > ../src/mygraph.cpp
 cmake -DENABLE_TESTING=ON ..
 make -j4
 ./test.sh 50-10-9-q.cnf.gz.no_w.cnf
+```
+
+To check how the python layout works in a visual way:
+
+```
+pip install python-louvain
+git clone https://github.com/meelgroup/louvain-community
+cd louvain-community
+mkdir build && cd build
+ln -s ../scritps/* .
+./mytest.py 50-10-9-q.cnf.gz.no_w.cnf --draw
 ```
 
 
