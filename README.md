@@ -1,3 +1,7 @@
+[![License: LGPL v3](https://img.shields.io/badge/License-LGPL%20v3-blue.svg)](http://www.gnu.org/licenses/lgpl-3.0)
+![build](https://github.com/msoos/cryptominisat/workflows/build/badge.svg)
+
+
 # Multi-criteria community detection library
 
 This library makes the Louvain community detection system significantly easier to use. Example code:
