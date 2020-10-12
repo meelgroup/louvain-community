@@ -73,7 +73,7 @@ struct PrivateData {
 
 DLL_PUBLIC Communities::Communities()
 {
-    data = new PrivateData;
+    data = new PrivateData();
 }
 
 DLL_PUBLIC Communities::~Communities()
