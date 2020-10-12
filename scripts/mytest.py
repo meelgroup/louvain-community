@@ -155,7 +155,7 @@ print_graph(G)
 partition = compute_best_part(G)
 dump_partition(partition)
 
-if len(sys.argv) >= 2:
+if len(sys.argv) >= 3:
     if sys.argv[2] == "--draw":
         draw_graph(G, partition)
     else:
