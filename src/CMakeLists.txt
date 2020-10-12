@@ -151,10 +151,11 @@ if (ENABLE_TESTING)
         INSTALL_RPATH_USE_LINK_PATH TRUE)
 endif()
 
-
-
-
-
+set_target_properties(louvain_communities PROPERTIES
+    PUBLIC_HEADER "${louvain_communities_public_headers}"
+    VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
+    SOVERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
+)
 
 louvain_communities_add_public_header(
     louvain_communities ${CMAKE_CURRENT_SOURCE_DIR}/louvain_communities.h )
