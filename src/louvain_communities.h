@@ -78,9 +78,10 @@ namespace LouvainC {
         void set_verbosity(unsigned verb);
         void set_precision(long double precision);
         std::vector<std::pair<unsigned int, int>> get_mapping();
-    };
 
-    PrivateData* data;
+    private:
+        PrivateData* data;
+    };
 }
 
 #endif
