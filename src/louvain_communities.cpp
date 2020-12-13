@@ -238,6 +238,7 @@ DLL_PUBLIC void Communities::calculate(bool weighted)
         quality = new_qual;
         level++;
     } while (improvement);
+    delete c;
 
     if (data->verbosity) {
         cout << "Quality: " << new_qual << endl;
