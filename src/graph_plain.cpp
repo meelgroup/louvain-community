@@ -162,17 +162,15 @@ void GraphPlain::binary_to_mem(
     vector<long double>& out_w,
     int type)
 {
-    const int s = links.size();
-
     // outputs cumulative degree sequence
     unsigned long long tot = 0ULL;
-    for (int i = 0; i < s; i++) {
+    for (size_t i = 0; i < links.size(); i++) {
         tot += (unsigned long long)links[i].size();
         out_deg_seq.push_back(tot);
     }
 
     // outputs links
-    for (int i = 0; i < s; i++) {
+    for (size_t i = 0; i < links.size(); i++) {
         for (unsigned int j = 0; j < links[i].size(); j++) {
             int dest = links[i][j].first;
             out_links.push_back(dest);
@@ -181,7 +179,7 @@ void GraphPlain::binary_to_mem(
 
     // outputs weights
     if (type == WEIGHTED) {
-        for (int i = 0; i < s; i++) {
+        for (size_t i = 0; i < links.size(); i++) {
             for (unsigned int j = 0; j < links[i].size(); j++) {
                 long double weight = links[i][j].second;
                 out_w.push_back(weight);
