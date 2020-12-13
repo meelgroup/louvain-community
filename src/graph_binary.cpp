@@ -58,7 +58,11 @@ GraphBin::GraphBin(
     degrees = out_deg_seq;
 
     // Read links: 4 bytes for each link (each link is counted twice)
-    nb_links = degrees[nb_nodes - 1];
+    if (nb_nodes == 0) {
+        nb_links = 0;
+    } else {
+        nb_links = degrees[nb_nodes - 1];
+    }
     links.resize(nb_links);
     links = out_links;
 
