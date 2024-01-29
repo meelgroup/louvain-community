@@ -34,6 +34,7 @@
 #define LOUVAIN_GRAPHPLAIN_H
 
 #include <algorithm>
+#include <cstdint>
 #include <fstream>
 #include <iostream>
 #include <map>
