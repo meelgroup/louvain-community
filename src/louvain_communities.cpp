@@ -26,6 +26,7 @@
 
 #include "louvain_communities.h"
 
+#include <cstdint>
 #include <unistd.h>
 #include "graph_binary.h"
 #include "graph_plain.h"
