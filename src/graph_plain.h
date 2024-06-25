@@ -39,6 +39,7 @@
 #include <iostream>
 #include <map>
 #include <vector>
+#include <cstdint>
 
 #define WEIGHTED 0
 #define UNWEIGHTED 1
