@@ -1,0 +1,6 @@
+# Config file for the Build-tree louvain_communities package (not relocatable).
+set(LOUVAIN_COMMUNITIES_INCLUDE_DIRS "@CMAKE_CURRENT_BINARY_DIR@/include")
+include("${CMAKE_CURRENT_LIST_DIR}/louvain_communitiesTargets.cmake")
+set(LOUVAIN_COMMUNITIES_LIBRARIES louvain_communities)
+set(LOUVAIN_COMMUNITIES_VERSION_MAJOR @PROJECT_VERSION_MAJOR@)
+set(LOUVAIN_COMMUNITIES_VERSION_MINOR @PROJECT_VERSION_MINOR@)

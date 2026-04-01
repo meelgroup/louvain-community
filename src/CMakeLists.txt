@@ -18,12 +18,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-include_directories( ${PROJECT_SOURCE_DIR} )
-include_directories( ${CMAKE_CURRENT_BINARY_DIR} )
-include_directories( ${CMAKE_CURRENT_SOURCE_DIR} )
-
-if (NOT WIN32)
-    add_cxx_flag_if_supported("-Wno-bitfield-constant-conversion")
+if(NOT WIN32)
+    #add_cxx_flag_if_supported("-Wno-bitfield-constant-conversion")
     #add_cxx_flag_if_supported("-Wduplicated-cond")
     #add_cxx_flag_if_supported("-Wduplicated-branches")
     add_cxx_flag_if_supported("-Wlogical-op")
@@ -38,7 +34,8 @@ if (NOT WIN32)
     #add_cxx_flag_if_supported("-Wdeprecated")
 endif()
 
-configure_file("${CMAKE_CURRENT_SOURCE_DIR}/GitSHA1.cpp.in" "${CMAKE_CURRENT_BINARY_DIR}/GitSHA1.cpp" @ONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/GitSHA1.cpp.in"
+  "${CMAKE_CURRENT_BINARY_DIR}/GitSHA1.cpp" @ONLY)
 
 add_library(louvain_communities
     balmod.cpp
@@ -59,8 +56,14 @@ add_library(louvain_communities
     louvain_communities.cpp
 )
 
+target_include_directories(louvain_communities
+  PRIVATE
+    ${PROJECT_SOURCE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
+)
 
-if (ENABLE_TESTING)
+if(ENABLE_TESTING)
     add_library(louvain_communities_orig
         balmod.cpp
         condora.cpp
@@ -78,77 +81,30 @@ if (ENABLE_TESTING)
         zahn.cpp
         ${CMAKE_CURRENT_BINARY_DIR}/GitSHA1.cpp
     )
+
     ####################
     ### BINARIES
-    add_executable(comml-matrix
-        main_matrix.cpp
-    )
-
-    add_executable(comml-convert
-        main_convert.cpp
-    )
-
-    add_executable(comml-hierarchy
-        main_hierarchy.cpp
-    )
-
-    add_executable(comml-louvain
-        main_louvain.cpp
-    )
-
-    add_executable(example
-        main_example.cpp
-    )
-
-    add_executable(example-libuse
-        main_example2.cpp
-    )
-
-
+    add_executable(comml-matrix    main_matrix.cpp)
+    add_executable(comml-convert   main_convert.cpp)
+    add_executable(comml-hierarchy main_hierarchy.cpp)
+    add_executable(comml-louvain   main_louvain.cpp)
+    add_executable(example         main_example.cpp)
+    add_executable(example-libuse  main_example2.cpp)
 
     ####################
     ### LINKING
-    target_link_libraries(comml-louvain
-        louvain_communities_orig
-    )
-
-    target_link_libraries(comml-convert
-        louvain_communities_orig
-    )
-
-    target_link_libraries(example
-        louvain_communities
-    )
-
-    target_link_libraries(example-libuse
-        louvain_communities
-    )
+    target_link_libraries(comml-louvain  PRIVATE louvain_communities_orig)
+    target_link_libraries(comml-convert  PRIVATE louvain_communities_orig)
+    target_link_libraries(example        PRIVATE louvain_communities)
+    target_link_libraries(example-libuse PRIVATE louvain_communities)
 
     ####################
     ### Target Properties
-    set_target_properties(comml-matrix PROPERTIES
-        RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}
-        INSTALL_RPATH_USE_LINK_PATH TRUE)
-
-    set_target_properties(comml-convert PROPERTIES
-        RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}
-        INSTALL_RPATH_USE_LINK_PATH TRUE)
-
-    set_target_properties(comml-hierarchy PROPERTIES
-        RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}
-        INSTALL_RPATH_USE_LINK_PATH TRUE)
-
-    set_target_properties(comml-louvain PROPERTIES
-        RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}
-        INSTALL_RPATH_USE_LINK_PATH TRUE)
-
-    set_target_properties(example PROPERTIES
-        RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}
-        INSTALL_RPATH_USE_LINK_PATH TRUE)
-
-    set_target_properties(example-libuse PROPERTIES
-        RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}
-        INSTALL_RPATH_USE_LINK_PATH TRUE)
+    foreach(tgt comml-matrix comml-convert comml-hierarchy comml-louvain example example-libuse)
+        set_target_properties(${tgt} PROPERTIES
+            RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}
+            INSTALL_RPATH_USE_LINK_PATH TRUE)
+    endforeach()
 endif()
 
 set_target_properties(louvain_communities PROPERTIES
@@ -158,12 +114,12 @@ set_target_properties(louvain_communities PROPERTIES
 )
 
 louvain_communities_add_public_header(
-    louvain_communities ${CMAKE_CURRENT_SOURCE_DIR}/louvain_communities.h )
+    louvain_communities ${CMAKE_CURRENT_SOURCE_DIR}/louvain_communities.h)
 
 # -----------------------------------------------------------------------------
 # Copy public headers into build directory include directory.
-# The cryptominisat5Config.cmake we generate in the build directory depends on
-# this.
+# The louvain_communitiesConfig.cmake we generate in the build directory depends
+# on this.
 # -----------------------------------------------------------------------------
 set(HEADER_DEST "${PROJECT_BINARY_DIR}/include/louvain_communities")
 add_custom_target(CopyPublicHeaders ALL)
@@ -181,7 +137,6 @@ foreach(public_header ${louvain_communities_public_headers})
                            "${HEADER_DEST}"
                       )
 endforeach()
-
 
 install(TARGETS louvain_communities
     EXPORT ${LOUVAIN_COMMUNITIES_EXPORT_NAME}
